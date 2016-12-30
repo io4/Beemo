@@ -1,0 +1,20 @@
+{
+  "name": "beemo3",
+  "version": "3.0.0",
+  "description": "A bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "luke",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "discord.js": "git://github.com/hydrabolt/discord.js.git#indev",
+    "erlpack": "github:hammerandchisel/erlpack#master",
+    "node-opus": "^0.2.4",
+    "opusscript": "0.0.1",
+    "redis": "^2.6.3",
+    "uws": "^0.12.0"
+  }
+}
