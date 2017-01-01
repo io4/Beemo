@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.4.7",
-    "cleverbot.io": "^1.0.4",
+    "cleverbot-node": "^0.2.4",
     "discord.js": "git://github.com/hydrabolt/discord.js.git#indev",
     "erlpack": "github:hammerandchisel/erlpack#master",
     "insultgenerator": "0.0.2",

@@ -1,10 +1,15 @@
+var Cleverbot = require('cleverbot-node');
+
 module.exports = async (client, message) => {
 	message.react("👀");
 	//ask cleverbot
-	client.cleverBot.setNick(message.author.toString());
-	client.cleverBot.create(function (err, session) {
-		client.cleverBot.ask(message.content, function (err, response) { 
-			message.reply(response);
+	if(typeof client.cleverBotSessions[message.author.id] == 'undefined') {
+		client.cleverBotSessions[message.author.id] = new Cleverbot;
+	}
+
+	Cleverbot.prepare(function(){
+		client.cleverBotSessions[message.author.id].write(message.content, function(response) {
+			message.reply(response.message);
 		});
 	});
 }

@@ -58,7 +58,6 @@ client.redis.on('error', function (err) {
 client.redis.client("setname", `${credentials.identifier}-shard-${client.shard.id+1}`);
 
 //Cleverbot
-client.cleverBot = new cleverbot(credentials.cleverBot.API_USER, credentials.cleverBot.API_KEY);
 client.cleverBotSessions = {};
 
 //Command dispatching

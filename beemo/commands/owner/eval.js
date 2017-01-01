@@ -1,3 +1,5 @@
+const rp = require("request-promise");
+
 module.exports = {
   main: async (bot, message, ...args) => {
     const client = bot;
@@ -6,6 +8,18 @@ module.exports = {
       if (typeof res !== 'string') res = require('util').inspect(res);
     } catch (err) {
       res = err.message;
+    }
+
+    if(res.size > 2000) {
+      var options = {
+        method: 'POST',
+        uri: 'https://pybin.pw/documents',
+        body: res,
+        json: true
+      };
+
+      response = await rp(options);
+      response = response.key;
     }
     message.channel.sendCode('js', res);
   },
