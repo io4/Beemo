@@ -10,7 +10,7 @@ module.exports = {
       res = err.message;
     }
 
-    if(res.size > 2000) {
+    if(res.length > 2000) {
       var options = {
         method: 'POST',
         uri: 'https://pybin.pw/documents',
@@ -19,9 +19,11 @@ module.exports = {
       };
 
       response = await rp(options);
-      response = response.key;
+      res = `https://pybin.pw/${response.key}`;
+      message.channel.sendMessage(res);
+    } else {
+      message.channel.sendCode('js', res);
     }
-    message.channel.sendCode('js', res);
   },
   help: 'Eval stuff',
   hidden: true,
