@@ -5,6 +5,7 @@ const redis = require('redis');
 const fs = require('fs');
 const path = require('path');
 const hasRole = require("./util/hasRole.js");
+const cleverbot = require("cleverbot.io");
 
 //promisify
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -55,6 +56,10 @@ client.redis.on('error', function (err) {
 });
 
 client.redis.client("setname", `${credentials.identifier}-shard-${client.shard.id+1}`);
+
+//Cleverbot
+client.cleverBot = new cleverbot(credentials.cleverBot.API_USER, credentials.cleverBot.API_KEY);
+client.cleverBotSessions = {};
 
 //Command dispatching
 client.dispatch = async (command, message) => {

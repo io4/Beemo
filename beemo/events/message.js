@@ -1,5 +1,6 @@
 const hasRole = require("../util/hasRole.js");
 const resolveNum = require("../util/resolveNum.js");
+const commandNotFound = require("./commandNotFound.js");
 
 async function getPrefixes(client, message) {
 	var prefixes = Array.from(client.credentials.prefixes);
@@ -18,12 +19,28 @@ async function getPrefixes(client, message) {
 		prefixes.push(""); //Have it listen to just "help" in pm, for example
 	}
 
-	prefixes.push(client.user.toString());
+	prefixes.push(`${client.user} `);
 
 	return prefixes;
 }
 
 module.exports = async (client, message) => {
+	if(message.author.id == client.user.id) return;
+	//Mention spam
+	if(message.guild == null) { //no pms
+		return;
+	}
+	var redisKey = `server:${message.guild.id}:mentionspam_count`;
+
+	var doMentionSpam = await client.redis.getAsync(redisKey);
+
+	if(doMentionSpam != null) {
+		var doMentionSpam = resolveNum(doMentionSpam);
+
+		if(message.mentions.users.size >= doMentionSpam) {
+			message.member.ban(7).catch(e => {});
+		}
+	}
 	//Ignore other bots
 	if(message.author.bot) return;
 	//Command processing
@@ -55,27 +72,12 @@ module.exports = async (client, message) => {
 					//Dispatch it
 					client.dispatch(client.commands[command_name], message);
 
-					break;
+					return; //Commands done
 				}
 			}
-
+			await commandNotFound(client, message);
 			break;
 		}
 	}
 
-	//Mention spam
-	if(message.guild == null) { //no pms
-		return;
-	}
-	var redisKey = `server:${message.guild.id}:mentionspam_count`;
-
-	var doMentionSpam = await client.redis.getAsync(redisKey);
-
-	if(doMentionSpam != null) {
-		var doMentionSpam = resolveNum(doMentionSpam);
-
-		if(message.mentions.users.size >= doMentionSpam) {
-			message.member.ban(7).catch(e => {});
-		}
-	}
 }
