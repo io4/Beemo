@@ -58,6 +58,9 @@ client.redis.client("setname", `${credentials.identifier}-shard-${client.shard.i
 
 //Command dispatching
 client.dispatch = async (command, message) => {
+	//Add little reactions
+	await message.react("👀").catch(e => {});
+
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
 
@@ -105,10 +108,44 @@ client.dispatch = async (command, message) => {
 		}
 	}
 
+	//Can I get it from the cache?
+
+	if(message.guild != null) {
+		var result = await client.redis.getAsync(`cache:${message.guild.id}:${command.name}${message.content}`);
+		var resultType = await client.redis.getAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`);
+		if(result != null) {
+			if(resultType == "embed") {
+				await message.channel.sendEmbed(JSON.parse(result));
+			} else {
+				await message.channel.sendMessage(result);
+			}
+			return;
+		}
+	}
+
+
 	try {
-		await command.main(client, message, ...args);
+		var result = await command.main(client, message, ...args);
 	} catch (err) {
 		client.error(`Error while executing command ${command.name}: ${err}`);
+		return;
+	}
+
+	if(result != null) {
+		if(result instanceof Discord.RichEmbed) {
+			await message.channel.sendEmbed(result);
+		} else {
+			await message.channel.sendMessage(result);
+		}
+		if(typeof command.cacheResult != 'undefined' && message.guild != null) { //Cache it
+			if(result instanceof Discord.RichEmbed) {
+				result = JSON.stringify(result);
+				await client.redis.setAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, "embed");
+				await client.redis.expireAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, 3600);
+			}
+			await client.redis.setAsync(`cache:${message.guild.id}:${command.name}${message.content}`, result);
+			await client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
+		}
 	}
 }
 

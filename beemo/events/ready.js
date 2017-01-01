@@ -11,9 +11,13 @@ module.exports = async client => {
 		var files = fs.readdirSync(path.resolve(path.join('./', 'beemo', 'commands', category)));
 		for(const file of files) {
 			if(file.endsWith(".js")) {
-				const command = client.commands[file.slice(0, -3)] = require(path.resolve(path.join('./', 'beemo', 'commands', category, file)));
-				command.name = file.slice(0, -3);
-				command.category = category;
+				try {
+					const command = client.commands[file.slice(0, -3)] = require(path.resolve(path.join('./', 'beemo', 'commands', category, file)));
+					command.name = file.slice(0, -3);
+					command.category = category;
+				} catch (err) {
+					client.log(`Error loading ${file}`, err);
+				}
 			}
 		}
 	}

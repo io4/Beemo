@@ -1,3 +1,5 @@
+const resolveNum = require("../../util/resolveNum.js");
+
 module.exports = {
     main: async (bot, message, ...args) => {
     	var redisKey = `server:${message.guild.id}:mentionspam_count`;
@@ -6,9 +8,8 @@ module.exports = {
     		await bot.redis.delAsync(redisKey);
     		await message.reply("I've disabled mention spam banning.");
     	} else {
-            //
-            var mentionspamcount = parseInt(message.content);
-            if(mentionspamcount == NaN) {
+            var mentionspamcount = resolveNum(message.content);
+            if(!mentionspamcount) {
                 await message.reply("The count must be an integer.");
                 return;
             }
@@ -21,7 +22,7 @@ module.exports = {
     		await message.reply(`I've set the mention amount to \`${message.content}\`.`);
     	}
     },
-    help: 'Set the bot\'s prefix for this server',
+    help: 'Set the amount of mentions a user can send in a message before I ban them.',
     guildOnly: true,
     roleRequired: 'Beemo Admin',
     args: '<prefix>'

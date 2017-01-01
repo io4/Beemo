@@ -35,9 +35,7 @@ module.exports = {
                         embed.addField('Guild Only?', command.guildOnly, true);
                     }
 
-                    await message.channel.sendEmbed(embed);
-
-                    return; //Done
+                    return embed;
                 }
             }
             message.reply("Command not found");
@@ -88,13 +86,10 @@ module.exports = {
                 embed.addField(category, categoryCommands, true);
             }
 
-            message.author.sendEmbed(embed);
-
-            if(message.channel.type != "dm") {
-        	   message.reply("**Check your DMs!**");
-            }
+            return embed;
         }
     },
     help: 'Returns this message.',
-    args: '[command]'
+    args: '[command]',
+    cacheResult: true
 };
