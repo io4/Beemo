@@ -59,7 +59,7 @@ client.redis.client("setname", `${credentials.identifier}-shard-${client.shard.i
 //Command dispatching
 client.dispatch = async (command, message) => {
 	//Add little reactions
-	message.react("👀").catch(e => {});
+	message.react("🔄").catch(e => {});
 
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
@@ -147,6 +147,8 @@ client.dispatch = async (command, message) => {
 			client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
 		}
 	}
+
+	message.react("✅").catch(e => {});
 }
 
 //Start it up

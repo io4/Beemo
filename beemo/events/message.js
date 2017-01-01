@@ -75,7 +75,7 @@ module.exports = async (client, message) => {
 		var doMentionSpam = resolveNum(doMentionSpam);
 
 		if(message.mentions.users.size >= doMentionSpam) {
-			await message.member.ban(7).catch(e => {});
+			message.member.ban(7).catch(e => {});
 		}
 	}
 }
