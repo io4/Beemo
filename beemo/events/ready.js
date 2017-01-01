@@ -25,5 +25,5 @@ module.exports = async client => {
 	//Other stuff
 
 	client.log(`Ready - ${client.guilds.size} Guilds`);
-	await client.user.setGame(`[${client.shard.id+1}] ${client.credentials.prefixes[0]}help | ${client.credentials.prefixes[0]}invite`);
+	client.user.setGame(`[${client.shard.id+1}] ${client.credentials.prefixes[0]}help | ${client.credentials.prefixes[0]}invite`);
 };

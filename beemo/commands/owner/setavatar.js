@@ -1,7 +1,7 @@
 module.exports = {
   main: async (bot, message, ...args) => {
     //Set avatar
-    await bot.user.setAvatar(message.content);
+    bot.user.setAvatar(message.content);
   },
   help: 'Sets the bots avatar',
   hidden: true,

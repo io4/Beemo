@@ -5,12 +5,12 @@ module.exports = {
     		//Delete the key
     		await bot.redis.delAsync(redisKey);
             await bot.redis.delAsync(inDmKey);
-    		await message.reply("I've disabled the farewell message.");
+    		message.reply("I've disabled the farewell message.");
     	} else {
 
             await bot.redis.setAsync(redisKey, farewell.join(" "));
 
-            await message.reply("alright, I've set the farewell message.");
+            message.reply("alright, I've set the farewell message.");
     	}
     },
     help: 'Set a guild/server farewell.',

@@ -59,7 +59,7 @@ client.redis.client("setname", `${credentials.identifier}-shard-${client.shard.i
 //Command dispatching
 client.dispatch = async (command, message) => {
 	//Add little reactions
-	await message.react("👀").catch(e => {});
+	message.react("👀").catch(e => {});
 
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
@@ -78,7 +78,7 @@ client.dispatch = async (command, message) => {
 			//channel is disabled
 			//check if they have Beemo Admin/Beemo Music
 			if(!hasRole(message, "Beemo Admin", "Beemo Music")) {
-				await message.reply("Commands are disabled in this channel.");
+				message.reply("Commands are disabled in this channel.");
 				return;
 			}
 		}
@@ -87,7 +87,7 @@ client.dispatch = async (command, message) => {
 
 		if(accessRole != null) {
 			if(!hasRole(message, accessRole)) {
-				await message.reply(`The bot is currently locked for users with the \`${accessRole}\` role.`);
+				message.reply(`The bot is currently locked for users with the \`${accessRole}\` role.`);
 				return;
 			}
 		}
@@ -95,7 +95,7 @@ client.dispatch = async (command, message) => {
 		//Check if they have the role required (if specified)
 		if(typeof command.roleRequired != 'undefined') {
 			if(!hasRole(message, command.roleRequired)) {
-				await message.reply(`You need the \`${command.roleRequired}\` role to use this command.`);
+				message.reply(`You need the \`${command.roleRequired}\` role to use this command.`);
 				return;
 			}
 		}
@@ -103,7 +103,7 @@ client.dispatch = async (command, message) => {
 
 	if(command.guildOnly) {
 		if(message.guild == null) {
-			await message.reply("This command can only be used in guilds/servers.");
+			message.reply("This command can only be used in guilds/servers.");
 			return;
 		}
 	}
@@ -115,9 +115,9 @@ client.dispatch = async (command, message) => {
 		var resultType = await client.redis.getAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`);
 		if(result != null) {
 			if(resultType == "embed") {
-				await message.channel.sendEmbed(JSON.parse(result));
+				message.channel.sendEmbed(JSON.parse(result));
 			} else {
-				await message.channel.sendMessage(result);
+				message.channel.sendMessage(result);
 			}
 			return;
 		}
@@ -133,18 +133,18 @@ client.dispatch = async (command, message) => {
 
 	if(result != null) {
 		if(result instanceof Discord.RichEmbed) {
-			await message.channel.sendEmbed(result);
+			message.channel.sendEmbed(result);
 		} else {
-			await message.channel.sendMessage(result);
+			message.channel.sendMessage(result);
 		}
 		if(typeof command.cacheResult != 'undefined' && message.guild != null) { //Cache it
 			if(result instanceof Discord.RichEmbed) {
 				result = JSON.stringify(result);
-				await client.redis.setAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, "embed");
-				await client.redis.expireAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, 3600);
+				client.redis.setAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, "embed");
+				client.redis.expireAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, 3600);
 			}
-			await client.redis.setAsync(`cache:${message.guild.id}:${command.name}${message.content}`, result);
-			await client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
+			client.redis.setAsync(`cache:${message.guild.id}:${command.name}${message.content}`, result);
+			client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
 		}
 	}
 }

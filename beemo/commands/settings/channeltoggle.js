@@ -8,11 +8,11 @@ module.exports = {
    			//Delete the key (enable commands)
 
    			await bot.redis.delAsync(redisKey);
-   			await message.reply("I've enabled commands for this channel.");
+   			message.reply("I've enabled commands for this channel.");
    		} else {
    			//Set the key
    			await bot.redis.setAsync(redisKey, "True");
-   			await message.reply("I've disabled commands for this channel.");
+   			message.reply("I've disabled commands for this channel.");
    		}
     },
     help: 'Disable/Enable commands in a channel',

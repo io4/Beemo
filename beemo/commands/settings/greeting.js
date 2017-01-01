@@ -6,7 +6,7 @@ module.exports = {
     		//Delete the key
     		await bot.redis.delAsync(redisKey);
             await bot.redis.delAsync(inDmKey);
-    		await message.reply("I've disabled the greeting.");
+    		message.reply("I've disabled the greeting.");
     	} else {
             if(dmOrMessage == "dm") {
                 await bot.redis.setAsync(inDmKey, "true");
@@ -16,7 +16,7 @@ module.exports = {
 
             await bot.redis.setAsync(redisKey, greeting.join(" "));
 
-            await message.reply("alright, I've set the greeting.");
+            message.reply("alright, I've set the greeting.");
     	}
     },
     help: 'Set a guild/server greeting.',

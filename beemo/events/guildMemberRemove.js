@@ -31,6 +31,6 @@ module.exports = async (client, member) => {
 		//dm/default channnel
 		var channel = member.guild.defaultChannel;
 		var farewell = formatFarewell(farewell, member);
-		await channel.sendMessage(farewell);
+		channel.sendMessage(farewell);
 	}
 }

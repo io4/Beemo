@@ -53,7 +53,7 @@ module.exports = async (client, message) => {
 					}
 
 					//Dispatch it
-					await client.dispatch(client.commands[command_name], message);
+					client.dispatch(client.commands[command_name], message);
 
 					break;
 				}

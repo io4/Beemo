@@ -16,10 +16,10 @@ module.exports = async (client, member) => {
 
 		if(channel != null) {
 			//Send the message
-			await channel.sendMessage(`${member.user.username}#${member.user.discriminator} has joined the guild.`);
+			channel.sendMessage(`${member.user.username}#${member.user.discriminator} has joined the guild.`);
 		} else {
 			//delete the key, the channel doesn't exist.
-			await client.redis.delAsync(redisKey);
+			client.redis.delAsync(redisKey);
 		}
 	}
 
@@ -37,6 +37,6 @@ module.exports = async (client, member) => {
 			var channel = member.guild.defaultChannel;
 		}
 		var greeting = formatGreeting(greeting, member);
-		await channel.sendMessage(greeting);
+		channel.sendMessage(greeting);
 	}
 }
