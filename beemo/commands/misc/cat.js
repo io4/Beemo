@@ -1,6 +1,6 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-      request("http://random.cat/meow", (error, response, body) => {
+      require('request')("http://random.cat/meow", (error, response, body) => {
         if(error) {
           return "Dang, I couldn't get a cat."
         } else {
