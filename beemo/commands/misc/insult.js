@@ -10,5 +10,6 @@ module.exports = {
         	message.channel.sendMessage(insult)
         });
     },
-    help: 'Insult someone'
+    help: 'Insult someone',
+    args: '[mention]'
 };
