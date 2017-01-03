@@ -1,6 +1,6 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	let memberToBan = message.guild.member(message.mentions.users.first());
+    	let memberToBan = message.guild.member(bot.resolve.user(message));
 
         if(typeof memberToBan == 'undefined') {
             message.reply("Invalid member.");
@@ -16,5 +16,5 @@ module.exports = {
     help: 'Ban a member',
     guildOnly: true,
     roleRequired: 'Beemo Admin',
-    args: '<mention>'
+    args: '<mention|id|username>'
 };
