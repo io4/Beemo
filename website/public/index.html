@@ -88,13 +88,9 @@
   <script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 		$(".main").onepage_scroll();
-		function set_servercount(){
       var socket = io.connect();
        socket.on('serverCount', function (data) {
         $(".servercount").html(data);
       });
-		}
-		set_servercount();
-		window.setInterval(set_servercount, 1000);
 	</script>
 </html>
