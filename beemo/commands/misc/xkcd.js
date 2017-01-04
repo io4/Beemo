@@ -5,7 +5,7 @@ module.exports = {
     	function sendComic(comic) {
     		message.reply(`XKCD ${comic.num}: **${comic.title}**\n\n${comic.img}`);
     	}
-        const xkcdNumber = client.resolve.num(message.content);
+        const xkcdNumber = bot.resolve.num(message.content);
         if(!xkcdNumber) {
         	var comic = xkcd(sendComic);
         } else {
