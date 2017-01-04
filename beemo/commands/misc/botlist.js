@@ -1,6 +1,5 @@
 const superagent = require('superagent');
 const { left, right } = require('../../util/pad.js');
-const resolveNum = require('../../util/resolveNum.js');
 
 module.exports = {
     main: async (client, message, ...args) => {
@@ -13,7 +12,7 @@ module.exports = {
             return b;
         });
         while (bots.length > 0) chunks.push(bots.splice(0, 10));
-        let page = Math.min(Math.max(resolveNum(message.content), 1), chunks.length) || 1;
+        let page = Math.min(Math.max(client.resolve.num(message.content), 1), chunks.length) || 1;
         return `Page ${page}/${chunks.length}\n` + chunks[page - 1].map((b, i) => `**${((page - 1) * 10) + (i + 1)}**: ${b.name} - **${b.servercount}** Servers ${b.compliant === 1 ? '(Compliant)' : ''}`).join('\n');
     },
     help: 'Grab the botlist from carbonitex',

@@ -1,5 +1,4 @@
 const hasRole = require("../util/hasRole.js");
-const resolveNum = require("../util/resolveNum.js");
 const commandNotFound = require("./commandNotFound.js");
 
 async function getPrefixes(client, message) {
@@ -34,7 +33,7 @@ module.exports = async (client, message) => {
 	var doMentionSpam = await client.redis.getAsync(redisKey);
 
 	if(doMentionSpam != null) {
-		var doMentionSpam = resolveNum(doMentionSpam);
+		var doMentionSpam = client.resolve.num(doMentionSpam);
 
 		if(message.mentions.users.size >= doMentionSpam) {
 			message.member.ban(7).catch(e => {});
