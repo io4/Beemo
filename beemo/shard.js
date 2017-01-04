@@ -60,9 +60,7 @@ client.redis.client("setname", `${credentials.identifier}-shard-${client.shard.i
 //Cleverbot
 client.cleverBotSessions = {};
 
-client.resolve = {
-user: require(`./util/resolveUser.js`)
-};
+client.resolve = require(`./util/resolve.js`);
 
 //Command dispatching
 client.dispatch = async (command, message) => {
