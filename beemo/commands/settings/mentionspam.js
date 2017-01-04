@@ -1,5 +1,3 @@
-const resolveNum = require("../../util/resolveNum.js");
-
 module.exports = {
     main: async (bot, message, ...args) => {
     	var redisKey = `server:${message.guild.id}:mentionspam_count`;
@@ -8,7 +6,7 @@ module.exports = {
     		await bot.redis.delAsync(redisKey);
     		message.reply("I've disabled mention spam banning.");
     	} else {
-            var mentionspamcount = resolveNum(message.content);
+            var mentionspamcount = bot.resolve.num(message.content);
             if(!mentionspamcount) {
                 message.reply("The count must be an integer.");
                 return;
