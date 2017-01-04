@@ -5,7 +5,6 @@ const commandNotFound = require("./commandNotFound.js");
 async function getPrefixes(client, message) {
 	var prefixes = Array.from(client.credentials.prefixes);
 
-	//Add mention
 
 	//Add server prefix (if it exists)
 	if(message.guild != null) {
@@ -53,11 +52,13 @@ module.exports = async (client, message) => {
 		if(message.content.startsWith(prefix)) {
 			//Remove the prefix
 			message.content = message.content.replace(prefix, "");
+			message.prefix = prefix;
 
 			for(var command_name in client.commands) {
 
 				if(message.content.startsWith(command_name)) {
 					//Now we remove the command, so we just have the args
+					//client.log(message.content);
 					message.content = message.content.replace(command_name, "");
 
 					if(!(message.content.startsWith(" ") || message.content == "")) { //mentionspamcount != mentionspam
