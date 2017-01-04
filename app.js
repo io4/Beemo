@@ -5,7 +5,7 @@ var serverCount = 0;
 const website = require("./website/web.js");
 var io = website.io;
 
-website.server.listen(process.env.PORT||8080);
+website.server.listen(credentials.port||8080);
 const manager = new Discord.ShardingManager('beemo/shard.js', {
 	totalShards: credentials.shardCount,
 	respawn: false,
