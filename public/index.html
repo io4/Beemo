@@ -1,0 +1,100 @@
+<html prefix="og: http://ogp.me/ns#">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Luke">
+		<meta name="description" content="Beemo is a anything bot for discord.">
+		<meta property="og:title" content="Beemo">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="static/png/logo.png">
+		<meta property="og:url" content="https://beemo.club" id="ogurl">
+		<meta property="og:decription" content="Beemo is a anything bot for discord.">
+		<title>Beemo</title>
+		<link rel="shortcut icon" type="image/png" href="/static/ico/favicon.ico">
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+		<link href="/static/css/onepage-scroll.css" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="static/css/style.css">
+	</head>
+	<body>
+		<div class="main">
+			<section>
+								<nav class="navbar navbar-default">
+				  <div class="container-fluid">
+				    <!-- Brand and toggle get grouped for better mobile display -->
+				    <div class="navbar-header">
+				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				      </button>
+				      <a class="navbar-brand">
+				       	<img alt="Beemo" src="/static/png/face.png" width="40px">
+				      </a>
+				    </div>
+
+				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      <ul class="nav navbar-nav">
+				        <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+				        	<li><a onclick="$('.main').moveDown();">Donate</a></li>
+				      </ul>
+				    </div><!-- /.navbar-collapse -->
+				  </div><!-- /.container-fluid -->
+</nav>
+
+				<center>
+					<img src="static/png/logo.png" width="20%"/>
+					<h1>
+						Beemo
+					</h1>
+					<a class="btn btn-info" href="https://discordapp.com/oauth2/authorize?client_id=228537642583588864&scope=bot&permissions=-1&response_type=code&redirect_uri=https%3A%2F%2Fbeemo.club">
+						<div id="beemobutton">Add to Server!</div>
+					</a>
+					<a class="btn btn-info" href="https://discord.gg/f3qKB5Z">
+						<div id="beemobutton">Join Beemo's HQ!</div>
+					</a>
+					<h1>Serving <b><span class="servercount"></span></b> servers</h1>
+				</center>
+			</section>
+			<section>
+				<!-- Donate page goes here -->
+				<center>
+					<h1><b>Donating</b></h1>
+
+					<h3>
+						<p>Beemo is ran entirely by donations.</p>
+
+						<p>By donating, you are helping keep the bot alive.</p>
+					</h3>
+
+					<h2>
+						<p><b>You can donate using paypal below.</b></p>
+					</h2>
+					<br><br>
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+						<input type="hidden" name="cmd" value="_s-xclick" />
+						<input type="hidden" name="hosted_button_id" value="ZG4E38V2MTA44" />
+						<input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate" />
+						<img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+					</form>					
+				</center>
+
+			</section>
+		</div>
+	</body>
+	<script src="/static/js/jquery-3.1.1.min.js"></script>
+	<script src="/static/js/jquery.onepage-scroll.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		$(".main").onepage_scroll();
+		function set_servercount(){
+      var socket = io.connect();
+       socket.on('serverCount', function (data) {
+        $(".servercount").html(data);
+      });
+		}
+		set_servercount();
+		window.setInterval(set_servercount, 1000);
+	</script>
+</html>
