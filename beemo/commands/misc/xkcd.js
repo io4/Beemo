@@ -1,12 +1,11 @@
 const xkcd = require('xkcd');
-const resolveNum = require("../../util/resolveNum.js");
 
 module.exports = {
     main: async (bot, message, ...args) => {
     	function sendComic(comic) {
     		message.reply(`XKCD ${comic.num}: **${comic.title}**\n\n${comic.img}`);
     	}
-        const xkcdNumber = resolveNum(message.content);
+        const xkcdNumber = client.resolve.num(message.content);
         if(!xkcdNumber) {
         	var comic = xkcd(sendComic);
         } else {
