@@ -2,13 +2,13 @@ module.exports = {
     main: async (bot, message, ...args) => {
     	var redisKeyJoin = `server:${message.guild.id}:autorole:join`;
       var redisKeyGet = `server:${message.guild.id}:autorole:get`;
-      var subCommand = message.split(" ")[0];
+      var subCommand = args[0];
       switch(subCommand){
         case "add":
-          if(message.split(" ")[1] == "join"){
-            await client.redis.saddAsync(redisKeyJoin, message.split(" ").slice(2).join(" "));
-          } else if(message.split(" ")[1] == "get"){
-            await client.redis.saddAsync(redisKeyGet, message.split(" ").slice(2).join(" "));
+          if(args[1] == "join"){
+            await client.redis.saddAsync(redisKeyJoin, args.slice(2).join(" "));
+          } else if(args[1] == "get"){
+            await client.redis.saddAsync(redisKeyGet, args.slice(2).join(" "));
           }
           break;
       }
