@@ -26,23 +26,6 @@ module.exports = {
     	}
     },
     onGuildMemberAdd: async (client, member) => {
-        //Log channel
-        var redisKey = `server:${member.guild.id}:logchannel`;
-
-        var doLog = await client.redis.getAsync(redisKey);
-
-        if(doLog != null) {
-            //Find the channel
-            var channel = member.guild.channels.get(doLog);
-
-            if(channel != null) {
-                //Send the message
-                channel.sendMessage(`${member.user.username}#${member.user.discriminator} has joined the guild.`);
-            } else {
-                //delete the key, the channel doesn't exist.
-                client.redis.delAsync(redisKey);
-            }
-        }
 
         var redisKey = `server:${member.guild.id}:greeting_message`;
         var inDmKey = `server:${member.guild.id}:greeting_in_dm`;
