@@ -7,8 +7,10 @@ module.exports = {
         case "add":
           if(args[1] == "join"){
             await client.redis.saddAsync(redisKeyJoin, args.slice(2).join(" "));
+            message.reply(":ok_hand:");
           } else if(args[1] == "get"){
             await client.redis.saddAsync(redisKeyGet, args.slice(2).join(" "));
+            message.reply(":ok_hand:");
           }
           break;
       }
