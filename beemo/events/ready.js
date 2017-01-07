@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const lowerFirstLetter = require("../util/lowerFirstLetter.js");
+const injectClient = require("../util/injectClient.js");
 
 module.exports = async client => {
 	//Load all the commands
@@ -15,6 +17,15 @@ module.exports = async client => {
 					const command = client.commands[file.slice(0, -3)] = require(path.resolve(path.join('./', 'beemo', 'commands', category, file)));
 					command.name = file.slice(0, -3);
 					command.category = category;
+
+					//Events
+					for(var key in command) {
+						if(key.startsWith("on")) {
+							var event = lowerFirstLetter(key.slice(2));
+
+							client.on(event, injectClient(client, command[key]));
+						}
+					}
 				} catch (err) {
 					client.log(`Error loading ${file}`, err);
 				}

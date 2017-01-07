@@ -20,6 +20,22 @@ module.exports = {
     		message.reply(`I've set the mention amount to \`${message.content}\`.`);
     	}
     },
+    onMessage: async (bot, message) => {
+        if(message.guild == null) { //no pms
+            return;
+        }
+        var redisKey = `server:${message.guild.id}:mentionspam_count`;
+
+        var doMentionSpam = await bot.redis.getAsync(redisKey);
+
+        if(doMentionSpam != null) {
+            var doMentionSpam = bot.resolve.num(doMentionSpam);
+
+            if(message.mentions.users.size >= doMentionSpam) {
+                message.member.ban(7).catch(e => {});
+            }
+        }
+    },
     help: 'Set the amount of mentions a user can send in a message before I ban them.',
     guildOnly: true,
     roleRequired: 'Beemo Admin',

@@ -24,21 +24,6 @@ async function getPrefixes(client, message) {
 
 module.exports = async (client, message) => {
 	if(message.author.id == client.user.id) return;
-	//Mention spam
-	if(message.guild == null) { //no pms
-		return;
-	}
-	var redisKey = `server:${message.guild.id}:mentionspam_count`;
-
-	var doMentionSpam = await client.redis.getAsync(redisKey);
-
-	if(doMentionSpam != null) {
-		var doMentionSpam = client.resolve.num(doMentionSpam);
-
-		if(message.mentions.users.size >= doMentionSpam) {
-			message.member.ban(7).catch(e => {});
-		}
-	}
 	//Ignore other bots
 	if(message.author.bot) return;
 	//Command processing

@@ -5,7 +5,7 @@ const redis = require('redis');
 const fs = require('fs');
 const path = require('path');
 const hasRole = require("./util/hasRole.js");
-const cleverbot = require("cleverbot.io");
+const injectClient = require("./util/injectClient.js");
 
 //promisify
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -26,22 +26,12 @@ client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD 
 
 //Events
 
-function reqEvt(event) {
-	return function runEvt(...args) {
-		try {
-			return require(`./events/${event}`)(client, ...args);
-		} catch (err) {
-			client.log(err);
-		}
-	}
-}
-
 const events = fs.readdirSync(path.resolve('./beemo/events'));
 for (const event of events) {
 	if (event.endsWith('.js')) {
         event_name = event.slice(0, -3);
 
-        client.on(event_name, reqEvt(event_name));
+        client.on(event_name, injectClient(client, require(`./events/${event}`)));
     }
 }
 
@@ -65,13 +55,18 @@ client.resolve = require(`./util/resolve.js`);
 //Command dispatching
 client.dispatch = async (command, message) => {
 	//Add little reactions
-	message.react("🔄").catch(e => {});
+	try {
+		var processingReaction = await message.react("🔄");
+	} catch (err) {
+		var processingReaction = null;
+	}
 
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
 
 	if(command.ownerOnly) {
 		if(message.author.id != client.credentials.owner) {
+			message.react("⛔").catch(e => {});
 			return;
 		}
 	}
@@ -84,6 +79,7 @@ client.dispatch = async (command, message) => {
 			//channel is disabled
 			//check if they have Beemo Admin/Beemo Music
 			if(!hasRole(message, "Beemo Admin", "Beemo Music")) {
+				message.react("⛔").catch(e => {});
 				message.reply("Commands are disabled in this channel.");
 				return;
 			}
@@ -93,6 +89,7 @@ client.dispatch = async (command, message) => {
 
 		if(accessRole != null) {
 			if(!hasRole(message, accessRole)) {
+				message.react("⛔").catch(e => {});
 				message.reply(`The bot is currently locked for users with the \`${accessRole}\` role.`);
 				return;
 			}
@@ -101,6 +98,7 @@ client.dispatch = async (command, message) => {
 		//Check if they have the role required (if specified)
 		if(typeof command.roleRequired != 'undefined') {
 			if(!hasRole(message, command.roleRequired)) {
+				message.react("⛔").catch(e => {});
 				message.reply(`You need the \`${command.roleRequired}\` role to use this command.`);
 				return;
 			}
@@ -109,6 +107,7 @@ client.dispatch = async (command, message) => {
 
 	if(command.guildOnly) {
 		if(message.guild == null) {
+			message.react("⛔").catch(e => {});
 			message.reply("This command can only be used in guilds/servers.");
 			return;
 		}
@@ -133,6 +132,7 @@ client.dispatch = async (command, message) => {
 	try {
 		var result = await command.main(client, message, ...args);
 	} catch (err) {
+		message.react("❌").catch(e => {});
 		client.error(`Error while executing command ${command.name}: ${err}`);
 		return;
 	}
@@ -153,8 +153,9 @@ client.dispatch = async (command, message) => {
 			client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
 		}
 	}
-
-	message.react("✅").catch(e => {});
+	if(processingReaction != null) {
+		processingReaction.remove();//message.author);
+	}
 }
 
 //Start it up
