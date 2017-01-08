@@ -26,6 +26,10 @@ module.exports = async client => {
 							client.on(event, injectClient(client, command[key]));
 						}
 					}
+
+					if(typeof command.onLoad != 'undefined') {
+						command.onLoad(client);
+					}
 				} catch (err) {
 					client.log(`Error loading ${file}`, err);
 				}
