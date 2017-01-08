@@ -13,17 +13,21 @@ module.exports = {
             message.reply(":ok_hand:");
           }
           break;
+          case "get": 
+            var getRoles = await client.redis.smembers(redisKeyGet);
+            if(getRoles.indexOf(args.slice(1).join(" ")>-1){
+                    member.addRole(message.guild.roles.find("name",args.slice(1).join(" ")));
+               } else {
+                    message.reply("That role is not in the autorole list");
+               }
+          break;
       }
     },
     onGuildMemberAdd: async (client, member) => {
         var redisKeyJoin = `server:${message.guild.id}:autorole:join`;
-        var joinRoles = await client.redis.smembers(redisKey);
+        var joinRoles = await client.redis.smembers(redisKeyJoin);
         for(var i in joinRoles){
-          for(var x in member.guild.roles){
-            if(member.guild.roles[x].name==joinRoles[i].name){
-              member.addRole(member.guild.roles[x]);
-            }
-          }
+              member.addRole(member.guild.roles.find("name",joinRoles[i]));
         }
 
     },
