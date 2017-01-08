@@ -46,6 +46,6 @@ module.exports = {
     },
     help: 'Set a guild/server greeting.',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MANAGE_GUILD',
     args: '<dm|channel> <message>'
 };

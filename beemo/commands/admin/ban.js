@@ -16,6 +16,6 @@ module.exports = {
     },
     help: 'Ban a member',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'BAN_MEMBERS',
     args: '<mention|id|username>'
 };

@@ -18,6 +18,6 @@ module.exports = {
     },
     help: 'Kicks a member from a voice channel',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'KICK_MEMBERS',
     args: '<mention|id|username>'
 };

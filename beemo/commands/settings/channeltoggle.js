@@ -17,5 +17,5 @@ module.exports = {
     },
     help: 'Disable/Enable commands in a channel',
     guildOnly: true,
-    roleRequired: 'Beemo Admin'
+    permissionRequired: 'MANAGE_GUILD'
 };

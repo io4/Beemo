@@ -111,6 +111,16 @@ client.dispatch = async (command, message) => {
 				return;
 			}
 		}
+
+		if(typeof command.permissionRequired != 'undefined') {
+			if(!message.member.hasPermission(command.permissionRequired)) {
+				message.react("⛔").catch(e => {});
+				message.reply(`You need the \`${command.permissionRequired}\` permission to use this command.`);
+				return;
+			}
+		}
+
+
 	}
 
 	if(command.guildOnly) {

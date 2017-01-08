@@ -57,6 +57,6 @@ module.exports = {
     },
     help: 'Set the channel where beemo can log joins/leaves.',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MANAGE_GUILD',
     args: '<channel>'
 };

@@ -38,6 +38,6 @@ module.exports = {
     },
     help: 'Set the amount of mentions a user can send in a message before I ban them.',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MANAGE_GUILD',
     args: '<prefix>'
 };

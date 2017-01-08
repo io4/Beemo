@@ -12,6 +12,6 @@ module.exports = {
     },
     help: 'Set the bot\'s prefix for this server',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MANAGE_GUILD',
     args: '<prefix>'
 };

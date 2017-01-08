@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = { // thanks for the cool code cat
 	user: (msg, selfErr = false) => {
 		const userreg = new RegExp(/<@!?([0-9]{17,21})>/);
 		const userreg2 = new RegExp(/id\:([0-9]{17,21})/);
@@ -32,5 +32,23 @@ module.exports = {
 		} else {
 			return false;
 		}
-	}
+	},
+	role: (msg, selfErr = false) => {
+        var input = msg.content;
+        var roleid = input;
+        if (msg.mentions.roles && msg.mentions.roles.length > 0) {
+            roleid = msg.mentions.roles.first().id;
+        } else if (msg.guild.roles.find(r => r.id.includes(input))) {
+            roleid = input;
+        } else if (msg.guild.roles.find(r => r.name.includes(input))) {
+            roleid = msg.guild.roles.find(r => r.name.includes(input)).id;
+        } else if (selfErr) roleid = msg.member.highestRole.id;
+
+        var role = msg.guild.roles.get(roleid);
+        if (role == undefined) {
+            return false;
+        } else {
+            return role;
+        }
+    }
 };

@@ -22,6 +22,6 @@ module.exports = {
     },
     help: 'Unmute a member',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MUTE_MEMBERS',
     args: '<mention|id|username>'
 };
