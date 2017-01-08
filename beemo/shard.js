@@ -62,13 +62,6 @@ client.resolve = require(`./util/resolve.js`);
 
 //Command dispatching
 client.dispatch = async (command, message) => {
-	//Add little reactions
-	try {
-		var processingReaction = await message.react("🔄");
-	} catch (err) {
-		var processingReaction = null;
-	}
-
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
 
@@ -170,9 +163,6 @@ client.dispatch = async (command, message) => {
 			client.redis.setAsync(`cache:${message.guild.id}:${command.name}${message.content}`, result);
 			client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
 		}
-	}
-	if(processingReaction != null) {
-		processingReaction.remove();//message.author);
 	}
 }
 

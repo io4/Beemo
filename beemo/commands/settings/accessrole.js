@@ -18,6 +18,6 @@ module.exports = {
     },
     help: 'Set the role that Beemo only listens to.',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MANAGE_GUILD',
     args: '<role name>'
 };

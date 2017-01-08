@@ -28,6 +28,6 @@ module.exports = {
     },
     help: 'Set a guild/server farewell.',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'MANAGE_GUILD',
     args: '<message>'
 };
