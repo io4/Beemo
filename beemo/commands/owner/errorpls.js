@@ -1,6 +1,6 @@
 module.exports = {
   main: async (bot, message, ...args) => {
-    dwjdwidjwidji
+    throw new Error("Here's the error you wanted");
   },
   help: 'Nice error',
   hidden: true,

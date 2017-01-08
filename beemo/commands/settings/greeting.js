@@ -22,7 +22,7 @@ module.exports = {
 
             await bot.redis.setAsync(redisKey, greeting.join(" "));
 
-            message.reply("alright, I've set the greeting.");
+            message.reply("Alright, I've set the greeting.");
     	}
     },
     onGuildMemberAdd: async (client, member) => {

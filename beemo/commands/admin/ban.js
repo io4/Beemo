@@ -8,10 +8,10 @@ module.exports = {
         }
         try {
             await memberToBan.ban();
-            message.reply(":ok_hand:");
         } catch (err) {
             message.reply("Unable to ban, do I have the correct permissions?");
         }
+        message.reply(":ok_hand:");
     },
     help: 'Ban a member',
     guildOnly: true,

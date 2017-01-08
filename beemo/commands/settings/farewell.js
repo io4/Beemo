@@ -10,7 +10,7 @@ module.exports = {
 
             await bot.redis.setAsync(redisKey, farewell.join(" "));
 
-            message.reply("alright, I've set the farewell message.");
+            message.reply("Alright, I've set the farewell message.");
     	}
     },
     onGuildMemberRemove: async (client, member) => {
@@ -25,7 +25,7 @@ module.exports = {
             var farewell = formatFarewell(farewell, member);
             channel.sendMessage(farewell);
         }
-    }, 
+    },
     help: 'Set a guild/server farewell.',
     guildOnly: true,
     roleRequired: 'Beemo Admin',

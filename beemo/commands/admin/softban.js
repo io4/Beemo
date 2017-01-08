@@ -8,11 +8,11 @@ module.exports = {
         }
         try {
             await memberToBan.ban();
-            message.guild.unban(memberToBan.user);
-            message.reply(":ok_hand:");
+            await message.guild.unban(memberToBan.user);
         } catch (err) {
             message.reply("Unable to softban, do I have the correct permissions?");
         }
+        message.reply(":ok_hand:");
     },
     help: 'Softbans a member',
     guildOnly: true,
