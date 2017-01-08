@@ -11,7 +11,7 @@ module.exports = {
 			userid = userreg2.exec(input)[1];
 		} else if (msg.client.users.find(`username`, msg.content.replace(`@`, ``)) !== null) {
 			userid = msg.client.users.find(`username`, msg.content.replace(`@`, ``)).id;
-		} else if (!msg.content && selfErr !== false) userid = msg.author.id;
+		} else if (selfErr) userid = msg.author.id;
 
 		const user = msg.client.users.get(userid);
 		if (user == undefined) {
