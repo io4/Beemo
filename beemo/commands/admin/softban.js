@@ -11,6 +11,7 @@ module.exports = {
             await message.guild.unban(memberToBan.user);
         } catch (err) {
             message.reply("Unable to softban, do I have the correct permissions?");
+            return;
         }
         message.reply(":ok_hand:");
     },

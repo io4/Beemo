@@ -10,11 +10,11 @@ module.exports = {
             var voiceChannel = await message.guild.createChannel('vckick', 'text');
             await memberToKick.setVoiceChannel(voiceChannel);
             await voiceChannel.delete();
-            message.reply(":ok_hand:");
         } catch (err) {
-            bot.log(err);
             message.reply("Unable to kick, do I have the manage channels/move members permissions?");
+            return;
         }
+        message.reply(":ok_hand:");
     },
     help: 'Kicks a member from a voice channel',
     guildOnly: true,

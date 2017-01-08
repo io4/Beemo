@@ -24,6 +24,14 @@ const client = new Discord.Client({
 client.log = (...args) => console.log('🔧', chalk.green.bold(`SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 
+if(credentials.distribution != "DEBUG") {
+	process.on('unhandledRejection', (reason, promise) => {
+		if(reason != "Forbidden") {
+			client.error(reason);
+		}
+	});
+}
+
 //Events
 
 const events = fs.readdirSync(path.resolve('./beemo/events'));

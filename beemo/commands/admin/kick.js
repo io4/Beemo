@@ -10,6 +10,7 @@ module.exports = {
             await memberToBan.kick();
         } catch (err) {
             message.reply("Unable to kick, do I have the correct permissions?");
+            return;
         }
         message.reply(":ok_hand:");
     },
