@@ -34,10 +34,10 @@ module.exports = { // thanks for the cool code cat
 		}
 	},
 	role: (msg, selfErr = false) => {
-        var input = msg.content;
-        var roleid = input;
-        if (msg.mentions.roles && msg.mentions.roles.length > 0) {
-            roleid = msg.mentions.roles.first().id;
+        const input = msg.content;
+        let roleid = input;
+        if (msg.mentions.roles.array().length > 0) {
+            roleid = msg.mentions.roles.array()[0].id;
         } else if (msg.guild.roles.find(r => r.id.includes(input))) {
             roleid = input;
         } else if (msg.guild.roles.find(r => r.name.includes(input))) {
