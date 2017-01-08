@@ -1,3 +1,4 @@
+
 const Discord = require("discord.js");
 const chalk = require("chalk");
 const bluebird = require("bluebird");
@@ -24,11 +25,12 @@ const client = new Discord.Client({
 client.log = (...args) => console.log('🔧', chalk.green.bold(`SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 
-process.on('unhandledRejection', (reason, promise) => {
-	if(reason != "Error: Forbidden") {
-		client.error(reason.text);
-	}
-});
+// process.on('unhandledRejection', (reason, promise) => {
+// 	if(reason != "Error: Forbidden") {
+// 		client.error(`Unhandled Rejection: ${reason.text}`);
+// 		client.error(`The Promise: ${promise}`);
+// 	}
+// });
 
 //Events
 

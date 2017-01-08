@@ -3,7 +3,7 @@ module.exports = (client, event) => {
 		try {
 			return event(client, ...args);
 		} catch (err) {
-			client.error(err);
+			client.error(`Error running event ${event}: ${err}`);
 		}
 	}
 }

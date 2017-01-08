@@ -28,7 +28,11 @@ module.exports = async client => {
 					}
 
 					if(typeof command.onLoad != 'undefined') {
-						command.onLoad(client);
+						try {
+							command.onLoad(client);
+						} catch (err) {
+							client.error(`Error running onLoad for command ${command.name}: ${err}`);
+						}
 					}
 				} catch (err) {
 					client.log(`Error loading ${file}`, err);
