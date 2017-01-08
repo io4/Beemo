@@ -15,7 +15,7 @@ module.exports = {
           break;
           case "get": 
             var getRoles = await client.redis.smembers(redisKeyGet);
-            if(getRoles.indexOf(args.slice(1).join(" ")>-1){
+            if(getRoles.indexOf(args.slice(1).join(" "))>-1){
                     member.addRole(message.guild.roles.find("name",args.slice(1).join(" ")));
                } else {
                     message.reply("That role is not in the autorole list");
