@@ -1,12 +1,10 @@
-const {
-    left,
-    right
-} = require('../../util/pad.js');
+const { left, right } = require('../../util/pad.js');
 const Discord = require(`discord.js`)
-let Embed = new Discord.RichEmbed();
 
 module.exports = {
     main: async(bot, message, ...args) => {
+        let Embed = new Discord.RichEmbed();
+
         let res = await bot.shard.broadcastEval(`this.guilds.map(g => g)`);
         let list = [];
         let chunks = [];
@@ -18,8 +16,9 @@ module.exports = {
         let page = Math.min(Math.max(parseInt(message.content), 1), chunks.length) || 1;
 
         chunks[page - 1].map((g, i) => Embed.addField(`${left(((page - 1) * 10) + (i + 1), 2)}) ${g.name}`, `**${g.memberCount.toLocaleString()} members**`, true));
-        Embed.setAuthor(`Servers I am on (${page}/${chunks.length} page)`, bot.user.avatarURL)
-        message.channel.sendEmbed(Embed);
+        Embed.setAuthor(`Servers I am on (page ${page}/${chunks.length})`, bot.user.avatarURL)
+        return Embed;
     },
-    help: 'Shows bot guilds list sorted by members in them'
+    help: 'Shows the bot\'s guild list',
+    cacheResult: true
 };
