@@ -16,10 +16,20 @@ module.exports = {
           case "get": 
             var getRoles = await client.redis.smembers(redisKeyGet);
             if(getRoles.indexOf(args.slice(1).join(" "))>-1){
-                    member.addRole(message.guild.roles.find("name",args.slice(1).join(" ")));
+                    async member.addRole(message.guild.roles.find("name",args.slice(1).join(" ")));
+                    message.reply(":ok_hand:");
                } else {
                     message.reply("That role is not in the autorole list");
                }
+          break;
+        case "remove":
+          if(args[1] == "join"){
+            await client.redis.sremAsync(redisKeyJoin, args.slice(2).join(" "));
+            message.reply(":ok_hand:");
+          } else if(args[1] == "get"){
+            await client.redis.sremAsync(redisKeyGet, args.slice(2).join(" "));
+            message.reply(":ok_hand:");
+          }
           break;
       }
     },
