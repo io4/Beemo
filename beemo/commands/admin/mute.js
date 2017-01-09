@@ -51,6 +51,7 @@ module.exports = {
         message.reply(":ok_hand:");
     },
     onChannelCreate: async (client, channel) => {
+        if(!channel.guild) return;
         let mutedRole = channel.guild.roles.find('name', MUTE_ROLE);
         if (!mutedRole) return;
         try {

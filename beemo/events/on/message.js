@@ -1,5 +1,10 @@
+const bluebird = require("bluebird");
+
 const hasRole = require("../../util/hasRole.js");
 const commandNotFound = require("./commandNotFound.js");
+const RedisNS = require('redis-ns');
+
+bluebird.promisifyAll(RedisNS.prototype);
 
 async function getPrefixes(client, message) {
 	var prefixes = Array.from(client.credentials.prefixes);
@@ -17,12 +22,29 @@ async function getPrefixes(client, message) {
 		prefixes.push(""); //Have it listen to just "help" in pm, for example
 	}
 
-	prefixes.push(`${client.user} `);
+	//prefixes.push(`${client.user} `);
 
 	return prefixes;
 }
 
 module.exports = async (client, message) => {
+	//Add message.X.redis here
+	if(message.guild) {
+		message.guild.redis = new RedisNS(`server:${message.guild.id}`, client.redis);
+		if(message.guild.channels) {
+			message.guild.channels.forEach(channel => {
+				channel.redis = new RedisNS(`server:${message.guild.id}:channel:${channel.id}`, client.redis);
+			})
+		}
+	}
+	if(message.member) {
+		message.member.redis = new RedisNS(`user:${message.author.id}`, client.redis);
+	}
+	if(message.author) {
+		message.author.redis = new RedisNS(`user:${message.author.id}`, client.redis);
+	}
+
+	if(!message) return;
 	if(message.author.id == client.user.id) return;
 	//Ignore other bots
 	if(message.author.bot) return;
@@ -37,6 +59,31 @@ module.exports = async (client, message) => {
 			//Remove the prefix
 			message.content = message.content.replace(prefix, "");
 			message.prefix = prefix;
+
+			if(message.guild) {
+				//channeltoggle
+				channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`);
+
+				if(channelDisabled) {
+					//channel is disabled
+					//check if they have Beemo Admin/Beemo Music
+					if(!hasRole(message, "Beemo Admin", "Beemo Music")) {
+						message.react("⛔").catch(e => {});
+						message.reply("Commands are disabled in this channel.");
+						return;
+					}
+				}
+				//accessrole
+				accessRole = await client.redis.getAsync(`server:${message.guild.id}:access_role`);
+
+				if(accessRole) {
+					if(!hasRole(message, accessRole)) {
+						message.react("⛔").catch(e => {});
+						message.reply(`The bot is currently locked for users with the \`${accessRole}\` role.`);
+						return;
+					}
+				}
+			}
 
 			for(var command_name in client.commands) {
 

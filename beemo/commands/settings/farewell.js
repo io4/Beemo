@@ -4,7 +4,6 @@ module.exports = {
     	if(message.content == "") {
     		//Delete the key
     		await bot.redis.delAsync(redisKey);
-            await bot.redis.delAsync(inDmKey);
     		message.reply("I've disabled the farewell message.");
     	} else {
 

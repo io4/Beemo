@@ -7,12 +7,10 @@ const fs = require('fs');
 const path = require('path');
 const hasRole = require("./util/hasRole.js");
 const injectClient = require("./util/injectClient.js");
-const RedisNS = require('redis-ns');
 
 //promisify
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
-bluebird.promisifyAll(RedisNS.prototype);
 
 const credentials = require('../credentials.json');
 
@@ -28,9 +26,8 @@ client.log = (...args) => console.log('🔧', chalk.green.bold(`SHARD ${client.s
 client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 
 process.on('unhandledRejection', (reason, promise) => {
-	if(reason != "Error: Forbidden") {
-		client.error(`Unhandled Rejection: ${reason}`);
-	}
+	if(reason == "Error: Forbidden" || reason == "Error: Bad Request") return;
+	client.error(`Unhandled Rejection: ${reason}`);
 });
 
 //Events
@@ -78,7 +75,6 @@ client.resolve = require(`./util/resolve.js`);
 
 //Command dispatching
 client.dispatch = async (command, message) => {
-	client.log("start of dispatch");
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
 
@@ -90,28 +86,6 @@ client.dispatch = async (command, message) => {
 	}
 
 	if(message.guild) {
-		//channeltoggle
-		channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`);
-
-		if(channelDisabled) {
-			//channel is disabled
-			//check if they have Beemo Admin/Beemo Music
-			if(!hasRole(message, "Beemo Admin", "Beemo Music")) {
-				message.react("⛔").catch(e => {});
-				message.reply("Commands are disabled in this channel.");
-				return;
-			}
-		}
-		//accessrole
-		accessRole = await client.redis.getAsync(`server:${message.guild.id}:access_role`);
-
-		if(accessRole) {
-			if(!hasRole(message, accessRole)) {
-				message.react("⛔").catch(e => {});
-				message.reply(`The bot is currently locked for users with the \`${accessRole}\` role.`);
-				return;
-			}
-		}
 
 		//Check if they have the role required (if specified)
 		if(command.roleRequired) {
@@ -156,13 +130,6 @@ client.dispatch = async (command, message) => {
 		}
 	}
 
-	//Redis namespace
-	if(message.guild) {
-		message.guild.redis = new RedisNS(`server:${message.guild.id}`, client.redis);
-	}
-
-	message.member.redis = message.author.redis = new RedisNS(`user:${message.author.id}`, client.redis);
-
 
 	try {
 		var result = await command.main(client, message, ...args);
@@ -188,10 +155,9 @@ client.dispatch = async (command, message) => {
 			client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
 		}
 	}
-	client.log("End of dispatch");
 }
 
 //Start it up
 
 client.credentials = credentials;
-client.login(credentials.token);
+client.login(credentials.token).catch(client.error);
