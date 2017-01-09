@@ -7,10 +7,12 @@ const fs = require('fs');
 const path = require('path');
 const hasRole = require("./util/hasRole.js");
 const injectClient = require("./util/injectClient.js");
+const RedisNS = require('redis-ns');
 
 //promisify
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
+bluebird.promisifyAll(RedisNS.prototype);
 
 const credentials = require('../credentials.json');
 
@@ -25,12 +27,11 @@ const client = new Discord.Client({
 client.log = (...args) => console.log('🔧', chalk.green.bold(`SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 
-// process.on('unhandledRejection', (reason, promise) => {
-// 	if(reason != "Error: Forbidden") {
-// 		client.error(`Unhandled Rejection: ${reason.text}`);
-// 		client.error(`The Promise: ${promise}`);
-// 	}
-// });
+process.on('unhandledRejection', (reason, promise) => {
+	if(reason != "Error: Forbidden") {
+		client.error(`Unhandled Rejection: ${reason}`);
+	}
+});
 
 //Events
 
@@ -38,8 +39,11 @@ const events = fs.readdirSync(path.resolve('./beemo/events'));
 for (const event of events) {
 	if (event.endsWith('.js')) {
         event_name = event.slice(0, -3);
-
-        client.on(event_name, injectClient(client, require(`./events/${event}`)));
+        try {
+        	client.on(event_name, injectClient(client, require(`./events/${event}`)));
+        } catch (err) {
+        	client.error(`Error running event ${event_name} (from events/): ${err}`);
+        }
     }
 }
 
@@ -72,9 +76,9 @@ client.dispatch = async (command, message) => {
 		}
 	}
 
-	if(message.guild != null) {
+	if(!message.guild) {
 		//channeltoggle
-		channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`)
+		channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`);
 
 		if(channelDisabled != null) {
 			//channel is disabled
@@ -126,7 +130,7 @@ client.dispatch = async (command, message) => {
 
 	//Can I get it from the cache?
 
-	if(message.guild != null) {
+	if(!message.guild) {
 		var result = await client.redis.getAsync(`cache:${message.guild.id}:${command.name}${message.content}`);
 		var resultType = await client.redis.getAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`);
 		if(result != null) {
@@ -138,6 +142,13 @@ client.dispatch = async (command, message) => {
 			return;
 		}
 	}
+
+	//Redis namespace
+	if(!message.guild) {
+		message.guild.redis = new RedisNS(`server:${message.guild.id}`, client.redis);
+	}
+
+	message.member.redis = message.author.redis = new RedisNS(`user:${message.author.id}`, client.redis);
 
 
 	try {

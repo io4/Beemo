@@ -25,6 +25,7 @@
     "npm": "^4.0.5",
     "opusscript": "0.0.1",
     "redis": "^2.6.3",
+    "redis-ns": "^0.2.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "serve-favicon": "^2.3.2",

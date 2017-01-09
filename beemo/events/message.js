@@ -55,7 +55,11 @@ module.exports = async (client, message) => {
 					}
 
 					//Dispatch it
-					client.dispatch(client.commands[command_name], message);
+					try {
+						await client.dispatch(client.commands[command_name], message);
+					} catch (err) {
+						client.error(`Error running dispatcher: ${err}`);
+					}
 
 					return; //Commands done
 				}

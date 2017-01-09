@@ -20,12 +20,12 @@ manager.on('launch', id => manager.log(`Launched Shard ${id.id+1}/${manager.tota
 manager.spawn();
 
 setInterval(_=>{
-manager.fetchClientValues('guilds.size').then(results => {
-  serverCount = results.reduce((prev, val) => prev + val, 0);
-  io.emit("serverCount", serverCount);
-}).catch(console.error);
+	manager.broadcastEval('this.guilds.size').then(results => {
+		serverCount = results.reduce((prev, val) => prev + val);
+		io.emit("serverCount", serverCount);
+	}).catch(console.error);
 },1000);
 
 io.on('connection', function (socket) {
-  socket.emit("serverCount", serverCount); // Quickly reply value in cache
+	socket.emit("serverCount", serverCount); // Quickly reply value in cache
 });

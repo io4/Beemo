@@ -4,7 +4,7 @@ module.exports = {
         figlet(message.content, {
             font: '4Max'
         }, function(err, data) {
-            message.channel.sendCode(data)
+            message.channel.sendCode(data);
         });
     },
     help: 'Print some ascii!',
