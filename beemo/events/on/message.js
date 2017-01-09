@@ -62,7 +62,7 @@ module.exports = async (client, message) => {
 
 			if(message.guild) {
 				//channeltoggle
-				channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`);
+				channelDisabled = await message.channel.redis.getAsync("disabled");
 
 				if(channelDisabled) {
 					//channel is disabled
@@ -74,7 +74,7 @@ module.exports = async (client, message) => {
 					}
 				}
 				//accessrole
-				accessRole = await client.redis.getAsync(`server:${message.guild.id}:access_role`);
+				accessRole = await message.guild.redis.getAsync("access_role");
 
 				if(accessRole) {
 					if(!hasRole(message, accessRole)) {
