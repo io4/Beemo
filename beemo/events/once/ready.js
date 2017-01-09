@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const lowerFirstLetter = require("../util/lowerFirstLetter.js");
-const injectClient = require("../util/injectClient.js");
+const lowerFirstLetter = require("../../util/lowerFirstLetter.js");
+const injectClient = require("../../util/injectClient.js");
 
 module.exports = async client => {
+	client.log("Loading commands...");
 	//Load all the commands
 	client.commands = {};
 
@@ -40,9 +41,5 @@ module.exports = async client => {
 			}
 		}
 	}
-
-	//Other stuff
-
-	client.log(`Ready - ${client.guilds.size} Guilds`);
-	client.user.setGame(`[${client.shard.id+1}] ${client.credentials.prefixes[0]}help | ${client.credentials.prefixes[0]}invite`);
+	client.log("Done!");
 };

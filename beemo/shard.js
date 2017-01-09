@@ -35,14 +35,26 @@ process.on('unhandledRejection', (reason, promise) => {
 
 //Events
 
-const events = fs.readdirSync(path.resolve('./beemo/events'));
-for (const event of events) {
+var events = fs.readdirSync(path.resolve('./beemo/events/on'));
+for (var event of events) {
 	if (event.endsWith('.js')) {
         event_name = event.slice(0, -3);
         try {
-        	client.on(event_name, injectClient(client, require(`./events/${event}`)));
+        	client.on(event_name, injectClient(client, require(`./events/on/${event}`)));
         } catch (err) {
-        	client.error(`Error running event ${event_name} (from events/): ${err}`);
+        	client.error(`Error running on event ${event_name} (from events/on/): ${err}`);
+        }
+    }
+}
+
+var events = fs.readdirSync(path.resolve('./beemo/events/once'));
+for (var event of events) {
+	if (event.endsWith('.js')) {
+        event_name = event.slice(0, -3);
+        try {
+        	client.once(event_name, injectClient(client, require(`./events/once/${event}`)));
+        } catch (err) {
+        	client.error(`Error running once event ${event_name} (from events/once): ${err}`);
         }
     }
 }
@@ -76,7 +88,7 @@ client.dispatch = async (command, message) => {
 		}
 	}
 
-	if(!message.guild) {
+	if(message.guild) {
 		//channeltoggle
 		channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`);
 
@@ -130,7 +142,7 @@ client.dispatch = async (command, message) => {
 
 	//Can I get it from the cache?
 
-	if(!message.guild) {
+	if(message.guild) {
 		var result = await client.redis.getAsync(`cache:${message.guild.id}:${command.name}${message.content}`);
 		var resultType = await client.redis.getAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`);
 		if(result != null) {
@@ -144,7 +156,7 @@ client.dispatch = async (command, message) => {
 	}
 
 	//Redis namespace
-	if(!message.guild) {
+	if(message.guild) {
 		message.guild.redis = new RedisNS(`server:${message.guild.id}`, client.redis);
 	}
 
@@ -165,7 +177,7 @@ client.dispatch = async (command, message) => {
 		} else {
 			message.channel.sendMessage(result);
 		}
-		if(typeof command.cacheResult != 'undefined' && message.guild != null) { //Cache it
+		if(typeof command.cacheResult != 'undefined' && message.guild) { //Cache it
 			if(result instanceof Discord.RichEmbed) {
 				result = JSON.stringify(result);
 				client.redis.setAsync(`cachetype:${message.guild.id}:${command.name}${message.content}`, "embed");

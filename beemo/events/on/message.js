@@ -1,4 +1,4 @@
-const hasRole = require("../util/hasRole.js");
+const hasRole = require("../../util/hasRole.js");
 const commandNotFound = require("./commandNotFound.js");
 
 async function getPrefixes(client, message) {
