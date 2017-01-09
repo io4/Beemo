@@ -78,6 +78,7 @@ client.resolve = require(`./util/resolve.js`);
 
 //Command dispatching
 client.dispatch = async (command, message) => {
+	client.log("start of dispatch");
 	var args = message.content.split(" ");
 	//Check if it's an owner-only command
 
@@ -92,7 +93,7 @@ client.dispatch = async (command, message) => {
 		//channeltoggle
 		channelDisabled = await client.redis.getAsync(`server:${message.guild.id}:channel:${message.channel.id}:disabled`);
 
-		if(channelDisabled != null) {
+		if(channelDisabled) {
 			//channel is disabled
 			//check if they have Beemo Admin/Beemo Music
 			if(!hasRole(message, "Beemo Admin", "Beemo Music")) {
@@ -104,7 +105,7 @@ client.dispatch = async (command, message) => {
 		//accessrole
 		accessRole = await client.redis.getAsync(`server:${message.guild.id}:access_role`);
 
-		if(accessRole != null) {
+		if(accessRole) {
 			if(!hasRole(message, accessRole)) {
 				message.react("⛔").catch(e => {});
 				message.reply(`The bot is currently locked for users with the \`${accessRole}\` role.`);
@@ -113,7 +114,7 @@ client.dispatch = async (command, message) => {
 		}
 
 		//Check if they have the role required (if specified)
-		if(typeof command.roleRequired != 'undefined') {
+		if(command.roleRequired) {
 			if(!hasRole(message, command.roleRequired)) {
 				message.react("⛔").catch(e => {});
 				message.reply(`You need the \`${command.roleRequired}\` role to use this command.`);
@@ -121,7 +122,7 @@ client.dispatch = async (command, message) => {
 			}
 		}
 
-		if(typeof command.permissionRequired != 'undefined') {
+		if(command.permissionRequired) {
 			if(!message.member.hasPermission(command.permissionRequired)) {
 				message.react("⛔").catch(e => {});
 				message.reply(`You need the \`${command.permissionRequired}\` permission to use this command.`);
@@ -133,7 +134,7 @@ client.dispatch = async (command, message) => {
 	}
 
 	if(command.guildOnly) {
-		if(message.guild == null) {
+		if(!message.guild) {
 			message.react("⛔").catch(e => {});
 			message.reply("This command can only be used in guilds/servers.");
 			return;
@@ -187,6 +188,7 @@ client.dispatch = async (command, message) => {
 			client.redis.expireAsync(`cache:${message.guild.id}:${command.name}${message.content}`, 3600);
 		}
 	}
+	client.log("End of dispatch");
 }
 
 //Start it up

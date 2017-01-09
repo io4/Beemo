@@ -8,10 +8,9 @@ module.exports = (message, ...roleNames) => {
 		return false;
 	}
 
-	for(var roleName in roleNames) {
-		var roleName = roleNames[roleName];
+	for(var roleName of roleNames) {
 		let role = message.guild.roles.find("name", roleName);
-		if(role != null){
+		if(role){
 			if(message.member.roles.has(role.id)) {
 				return true;
 			}
