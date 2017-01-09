@@ -3,7 +3,7 @@ const {
     right
 } = require('../../util/pad.js');
 const Discord = require(`discord.js`)
-let Embed = new Discord.RichEmbed();
+const Embed = new Discord.RichEmbed();
 
 module.exports = {
     main: async(bot, message, ...args) => {
