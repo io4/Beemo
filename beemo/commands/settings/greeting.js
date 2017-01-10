@@ -6,21 +6,19 @@ function formatGreeting(greeting, member) {
 
 module.exports = {
     main: async (bot, message, dmOrMessage, ...greeting) => {
-    	var redisKey = `server:${message.guild.id}:greeting_message`;
-        var inDmKey = `server:${message.guild.id}:greeting_in_dm`;
     	if(message.content == "") {
     		//Delete the key
-    		await bot.redis.delAsync(redisKey);
-            await bot.redis.delAsync(inDmKey);
+    		await message.guild.redis.delAsync("greeting_message");
+            await message.guild.redis.delAsync("greeting_in_dm");
     		message.reply("I've disabled the greeting.");
     	} else {
             if(dmOrMessage == "dm") {
-                await bot.redis.setAsync(inDmKey, "true");
+                await message.guild.redis.setAsync("greeting_in_dm", "true");
             } else {
-                await bot.redis.delAsync(inDmKey);
+                await message.guild.redis.delAsync("greeting_in_dm");
             }
 
-            await bot.redis.setAsync(redisKey, greeting.join(" "));
+            await message.guild.redis.setAsync("greeting_message", greeting.join(" "));
 
             message.reply("Alright, I've set the greeting.");
     	}

@@ -1,9 +1,8 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	var redisKey = `server:${message.guild.id}:mentionspam_count`;
     	if(message.content == "") {
     		//Delete the key
-    		await bot.redis.delAsync(redisKey);
+    		await message.guild.redis.delAsync("mentionspam_count");
     		message.reply("I've disabled mention spam banning.");
     	} else {
             var mentionspamcount = bot.resolve.num(message.content);
@@ -16,7 +15,7 @@ module.exports = {
                 message.reply("No.");
                 return;
             }
-    		await bot.redis.setAsync(redisKey, message.content);
+    		await message.guild.redis.setAsync("mentionspam_count", message.content);
     		message.reply(`I've set the mention amount to \`${message.content}\`.`);
     	}
     },

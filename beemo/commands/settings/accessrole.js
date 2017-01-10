@@ -1,18 +1,17 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	var redisKey = `server:${message.guild.id}:access_role`;
     	if(message.content == "") {
     		//Delete the key
-    		await bot.redis.delAsync(redisKey);
+    		await message.guild.redis.delAsync("access_role");
     		message.reply("I've disabled the access role.");
     	} else {
             //Check if the role exists
-            let role = message.guild.roles.find("name", message.content);
-            if(role == null){
+            let role = bot.resolve.role(message);
+            if(role == false){
                 message.reply("Role not found!");
                 return
             }
-    		await bot.redis.setAsync(redisKey, message.content);
+    		await message.guild.redis.setAsync("access_role", message.content);
     		message.reply(`I've set the access role to \`${message.content}\`.`);
     	}
     },

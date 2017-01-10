@@ -1,10 +1,8 @@
 module.exports = {
-    main: async (bot, message, ...args) => {
-    	var redisKey = `server:${message.guild.id}:logchannel`;
-        //console.log(message.mentions);
+    main: async (bot, message, ...args) => {;
     	if(message.mentions.channels == null) {
     		//Delete the key
-    		await bot.redis.delAsync(redisKey);
+    		await message.guild.redis.delAsync("logchannel");
     		message.reply("I've disabled the log channel.");
     	} else {
             //Check if the role exists
@@ -13,7 +11,7 @@ module.exports = {
                 message.reply("The channel must be a text channel.");
                 return;
             }
-    		await bot.redis.setAsync(redisKey, channel.id);
+    		await message.guild.redis.setAsync("logchannel", channel.id);
     		message.reply(`I've set the log channel to \`${channel.name}\`.`);
     	}
     },
@@ -21,7 +19,7 @@ module.exports = {
         //Log channel
         var redisKey = `server:${member.guild.id}:logchannel`;
 
-        var doLog = await client.redis.getAsync(redisKey);
+        var doLog = await message.guild..redis.getAsync(redisKey);
 
         if(doLog != null) {
             //Find the channel

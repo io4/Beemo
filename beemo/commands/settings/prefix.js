@@ -1,12 +1,11 @@
 module.exports = {
-    main: async (bot, message, ...args) => {
-    	var redisKey = `server:${message.guild.id}:prefix`;
+    main: async (bot, message, ...args) => {bnnbnbnbnbnbnbnbnbn
     	if(message.content == "") {
     		//Delete the key
-    		await bot.redis.delAsync(redisKey);
+    		await message.guild.redis.delAsync("prefix");
     		message.reply("I've reset the command prefix.");
     	} else {
-    		await bot.redis.setAsync(redisKey, message.content);
+    		await message.guild.redis.setAsync("prefix", message.content);
     		message.reply(`I've set the command prefix to \`${message.content}\`.`);
     	}
     },

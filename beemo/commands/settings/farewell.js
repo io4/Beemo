@@ -1,13 +1,12 @@
 module.exports = {
     main: async (bot, message, dmOrMessage, ...farewell) => {
-    	var redisKey = `server:${message.guild.id}:farewell_message`;
     	if(message.content == "") {
     		//Delete the key
-    		await bot.redis.delAsync(redisKey);
+    		await message.guild.redis.delAsync("farewell_message");
     		message.reply("I've disabled the farewell message.");
     	} else {
 
-            await bot.redis.setAsync(redisKey, farewell.join(" "));
+            await message.guild.redis.setAsync("farewell_message", farewell.join(" "));
 
             message.reply("Alright, I've set the farewell message.");
     	}
