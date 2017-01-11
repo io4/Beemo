@@ -19,7 +19,7 @@ module.exports = {
         //Log channel
         var redisKey = `server:${member.guild.id}:logchannel`;
 
-        var doLog = await message.guild..redis.getAsync(redisKey);
+        var doLog = await client.redis.getAsync(redisKey);
 
         if(doLog != null) {
             //Find the channel

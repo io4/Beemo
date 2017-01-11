@@ -67,10 +67,17 @@ module.exports = async (client, message) => {
 				if(channelDisabled) {
 					//channel is disabled
 					//check if they have Beemo Admin/Beemo Music
-					if(!hasRole(message, "Beemo Admin", "Beemo Music")) {
-						message.react("⛔").catch(e => {});
-						message.reply("Commands are disabled in this channel.");
-						return;
+					var permissions = message.member.permissions.serialize();
+					if(!(hasRole(message, "Beemo Music")||
+						permissions.KICK_MEMBERS ||
+					    permissions.BAN_MEMBERS ||
+					    permissions.ADMINISTRATOR ||
+					    permissions.MANAGE_CHANNELS ||
+					    permissions.MANAGE_GUILD ||
+					    permissions.MANAGE_MESSAGES)) {
+							message.react("⛔").catch(e => {});
+							message.reply("Commands are disabled in this channel.");
+							return;
 					}
 				}
 				//accessrole
