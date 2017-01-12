@@ -291,14 +291,42 @@ let items = {
         cost: 1001,
         info: "A very expensive lamp, great lighting.",
         amount: 1,
-        instock: true
+        instock: true,
+        func: async (message,bot) => {
+            switch (parseInt(weightedRand({0:1,1:0.01,2:0.1})())) {
+                case 0: 
+                    message.reply("You turn the lamp off and on again.");
+                    break;
+                case 1:
+                    message.reply("'s lamp breaks into a billion pieces (-1 lamp, +1 billion)");
+                    await removeItem(message.author,'lamp');
+                    await addItem(message.author,'billion');
+                    break;
+                case 2:
+                    message.reply("'s lamp does a little jig: https://www.youtube.com/watch?v=SI1fOIgXkaU");
+                    break;
+            }
+        }
     },
     "penguin": {
         name: "penguin",
         cost: 5000,
         info: "Don't forget to feed it.",
         amount: 1,
-        instock: false
+        instock: false,
+        func: async (message,bot) => {
+            switch (parseInt(weightedRand({0:1,1:0.1,2:0.1})())) {
+                case 0:
+                    message.reply(" feeds his penguin");
+                case 1:
+                    message.reply(" has a penguin roast (-1 penguin)");
+                    await removeItem(message.author, 'penguin');
+                case 2:
+                    var x = (await getUser(message.author)).inv['penguin'];
+                    message.reply(`'s penguin(s) multiply! (+${x} penguins)`);
+                    await addItem(message.author,'penguin',x)
+            }
+        }
     },
     "nothing": {
         name: "nothing",
@@ -310,11 +338,13 @@ let items = {
     "doll": {
         name: "doll",
         cost: 15000,
-        info: "A voodoo doll of moonythedwarf, do whatever you want to it.",
+        info: "A voodoo doll of yourself, do whatever you want to it.",
         amount: 1,
         instock: true,
         func: async (message,bot) => {
-            
+            message.reply("`s doll starts flying and they break their arms against the ceiling. the medical bill is $200 (-200 cash)");
+            takeCash(message.author,200);
+            return
         }
     },
     "derp": {
