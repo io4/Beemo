@@ -1,4 +1,6 @@
 'use strict';
+// support reloading of the helper
+delete require.cache[require.resolve('./util/capitalismHelper.js')];
 const capitHelper = require("./util/capitalismHelper.js");
 const Discord = require("discord.js");
 module.exports = {
