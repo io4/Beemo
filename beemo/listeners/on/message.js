@@ -6,7 +6,7 @@ const Discord = require("discord.js");
 async function messageAllowed(client, message) {
 	if(message.guild) {
 		//channeltoggle
-		channelDisabled = await message.channel.redis.getAsync("disabled");
+		var channelDisabled = await message.channel.redis.getAsync("disabled");
 
 		if(channelDisabled) {
 			//channel is disabled
@@ -25,7 +25,7 @@ async function messageAllowed(client, message) {
 			}
 		}
 		//accessrole
-		accessRole = await message.guild.redis.getAsync("access_role");
+		var accessRole = await message.guild.redis.getAsync("access_role");
 
 		if(accessRole) {
 			if(!hasRole(message, accessRole)) {
