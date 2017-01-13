@@ -91,5 +91,6 @@ module.exports = {
     },
     help: 'Returns this message.',
     args: '[command]',
-    cacheResult: true
+    cacheResult: true,
+    hidden: true
 };
