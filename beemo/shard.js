@@ -30,7 +30,7 @@ client.credentials = credentials;
 
 if(credentials.distribution != "DEBUG") {
 	process.on('unhandledRejection', (reason, promise) => {
-		if(reason == "Error: Forbidden" || åreason == "Error: Bad Request") return;
+		if(reason == "Error: Forbidden" || reason == "Error: Bad Request") return;
 		client.error(`Unhandled Rejection: ${reason}`);
 	});
 }
