@@ -25,10 +25,10 @@ const client = new Discord.Client({
 client.log = (...args) => console.log('🔧', chalk.green.bold(`SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 
-//process.on('unhandledRejection', (reason, promise) => {
-//	if(reason == "Error: Forbidden" || reason == "Error: Bad Request") return;
-//	client.error(`Unhandled Rejection: ${reason}`);
-//});
+process.on('unhandledRejection', (reason, promise) => {
+	if(reason == "Error: Forbidden" || reason == "Error: Bad Request") return;
+	client.error(`Unhandled Rejection: ${reason}`);
+});
 
 //Events
 

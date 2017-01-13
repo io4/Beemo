@@ -15,7 +15,7 @@ module.exports = async client => {
 		for(const file of files) {
 			if(file.endsWith(".js")) {
 				try {
-					const command = client.commands[file.slice(0, -3)] = require(path.resolve(path.join('./', 'beemo', 'commands', category, file)));
+					const command = client.commands[file.slice(0, -3)] = require(path.resolve('./', 'beemo', 'commands', category, file));
 					command.name = file.slice(0, -3);
 					command.category = category;
 
@@ -23,8 +23,9 @@ module.exports = async client => {
 					for(var key in command) {
 						if(key.startsWith("on")) {
 							var event = lowerFirstLetter(key.slice(2));
+							command[key].injected = injectClient(client, command[key]);
 
-							client.on(event, injectClient(client, command[key]));
+							client.on(event, command[key].injected);
 						}
 					}
 
