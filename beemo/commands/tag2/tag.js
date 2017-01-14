@@ -96,17 +96,18 @@ module.exports = {
     help: "Tags are a system that allows you to make 'tags' and view them.\n\
     List of all tag replacements and their uses:\n\
     Note: a # in a replacement means that can be replaced with any number \n\
-    {user} | replaces itself with the name of whoever views the tag.\n\
-    {mention} | replaces itself with a mention of whoever views the tag \n\
-    {userid} | replaces itself with the id of whoever views the tag \n\
-    {rand6} | replaces itself with a random number (1 to 6) \n\
-    {rand20} | replaces itself with a random number (1 to 20) \n\
-    {a#} | replaces itself with whatever argument number # is \n\
-    {dc} | seperates the data (d#) chunk from the string chunk. anything after {dc} will not be printed unless it is explictly used. \n\
-    {ds} | seperates the data chunk into pieces, the first piece being d1, the second being d2 and so on. \n\
-    {a#||d#} | replaces itself with a# (argument number #) if it exists, else it replaces itself with d# if it exists (data number #) \n\
-    {embed} | tells the formmatter that this should be formatted as a embed, not a string. \n\
-    {emsec} | seperates the embed into sections, i.e. section 1, section 2, etc. \n\
-    {emcolord#} | chooses the embed's color from d#, it must be in a valid format for color (i.e. #aabbcc or aabbcc) \n\
-    That's everything."
+    `{user}` - replaces itself with the name of whoever views the tag.\n\
+    `{mention}` - replaces itself with a mention of whoever views the tag \n\
+    `{userid}` - replaces itself with the id of whoever views the tag \n\
+    `{rand6}` - replaces itself with a random number (1 to 6) \n\
+    `{rand20}` - replaces itself with a random number (1 to 20) \n\
+    `{a#}` - replaces itself with whatever argument number # is \n\
+    `{dc}` - seperates the data (d#) chunk from the string chunk. anything after {dc} will not be printed unless it is explictly used. \n\
+    `{ds}` - seperates the data chunk into pieces, the first piece being d1, the second being d2 and so on. \n\
+    `{a#||d#}` - replaces itself with a# (argument number #) if it exists, else it replaces itself with d# if it exists (data number #) \n\
+    `{embed}` - tells the formmatter that this should be formatted as a embed, not a string. \n\
+    `{emsec}` - seperates the embed into sections, i.e. section 1, section 2, etc. \n\
+    `{emcolord#}` - chooses the embed's color from d#, it must be in a valid format for color (i.e. #aabbcc or aabbcc) \n\
+    That's everything.",
+    args: "<subcommand or tag> <subcommand args...>"
 };
