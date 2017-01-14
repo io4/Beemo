@@ -73,9 +73,6 @@ module.exports = {
     main: async (bot,message, ...args) => {
         switch (args[0].toLowerCase()) {
             case 'raw':
-                if (!message.member.hasPermission("MANAGE_MESSAGES")) {
-                    return "You cant do that!";
-                }
                 var x = await message.guild.redis.getAsync(`tag_${args[1]}`);
                 console.log(x);
                 if (x) {
