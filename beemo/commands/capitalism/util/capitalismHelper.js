@@ -18,19 +18,25 @@ async function saveUser(member, user) {
     await member.redis.setAsync("capitalism_userData",JSON.stringify(user));
     return;
 }
+async function makeSkeleton() {
+    let user = {}
+    user.inv= {};
+    user.cash= 1000;
+    user.cashAllTime= 1000;
+    user.cashLostAT= 0;
+    user.flags= {};
+    return user;
+}
 async function safeMakeData(member) {
     if (await member.redis.getAsync("capitalism_userData") == null || !await member.redis.getAsync("capitalism_userData")) {
         // Init the user.
-        let user = {}
-        user.inv= {};
-        user.cash= 1000;
-        user.cashAllTime= 1000;
-        user.cashLostAT= 0;
-        user.flags= {};
-        await saveUser(member,user);
+        await saveUser(member,makeSkeleton());
         return true;
     }
     return false;
+}
+async function resetUser(member) {
+    await saveUser(member,makeSkeleton());
 }
 async function randBuyValids(user) {
     var x = []
@@ -142,6 +148,7 @@ module.exports = {
     addItem: addItem,
     removeItem: removeItem,
     safeMakeData: safeMakeData,
+    resetUser: resetUser,
     saveUser: saveUser,
     itemExists: itemExists,
     weightedRand: weightedRand,
