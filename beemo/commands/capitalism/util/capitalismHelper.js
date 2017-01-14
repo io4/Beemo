@@ -30,13 +30,13 @@ async function makeSkeleton() {
 async function safeMakeData(member) {
     if (await member.redis.getAsync("capitalism_userData") == null || !await member.redis.getAsync("capitalism_userData")) {
         // Init the user.
-        await saveUser(member,makeSkeleton());
+        await saveUser(member,await makeSkeleton());
         return true;
     }
     return false;
 }
 async function resetUser(member) {
-    await saveUser(member,makeSkeleton());
+    await saveUser(member,await makeSkeleton());
 }
 async function randBuyValids(user) {
     var x = []
