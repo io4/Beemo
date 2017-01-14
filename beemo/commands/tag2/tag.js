@@ -2,21 +2,21 @@
 const Discord = require("discord.js");
 function randInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;}
 async function tagProcessSafe(message,tagname,args) {
-    console.log(tagname);
+    //console.log(tagname);
     var x = await message.guild.redis.getAsync(`tag_${tagname}`);
-    console.log(x);
+    //console.log(x);
     if (x) {
         return await processTag(x,message,args);
     } 
     return "That tag does not exist!";
 };
 async function processTag(tagdata,message,args) {
-    console.log(args.length);
+    //console.log(args.length);
     let dargs = [0,0,0,0,0];
     if (args.length > 0) {
         dargs = args;
     }
-    console.log(dargs);
+    //console.log(dargs);
     let str = tagdata; // being safe.
     str = str.replace("{rand6}", randInt(1, 6));
     str = str.replace("{rand20}", randInt(1, 20));
@@ -35,14 +35,14 @@ async function processTag(tagdata,message,args) {
             if (element == 0) {
                 i = element2;
             }
-            console.log("{a" + (index + 1) + "||d" + (index2 + 1) + "}");
+            //console.log("{a" + (index + 1) + "||d" + (index2 + 1) + "}");
             str = str.replace("{a" + (index + 1) + "||d" + (index2 + 1) + "}", i);
         });
     });
     dargs.forEach((element, index) => {
         data.forEach((element2, index2) => {
             var i = randInt(parseInt(element), parseInt(element2));
-            console.log("{randd" + (index + 1) + "d" + (index2 + 1) + "}");
+            //console.log("{randd" + (index + 1) + "d" + (index2 + 1) + "}");
             str = str.replace("{randd" + (index + 1) + "d" + (index2 + 1) + "}", i);
         });
     });
@@ -74,7 +74,7 @@ module.exports = {
         switch (args[0].toLowerCase()) {
             case 'raw':
                 var x = await message.guild.redis.getAsync(`tag_${args[1]}`);
-                console.log(x);
+                //console.log(x);
                 if (x) {
                     return x;   
                 }
