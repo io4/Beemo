@@ -27,5 +27,6 @@ module.exports = {
         //}
     },
     help: "View your or someone else's Capitalism statistics and inventory.",
-    args: "[mention|id|username]"
+    args: "[mention|id|username]",
+    permissionRequired: "MANAGE_MESSAGES"
 }

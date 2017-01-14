@@ -31,21 +31,21 @@ async function processTag(tagdata,message,args) {
     data = data.join().split("{ds}");
     dargs.forEach((element, index) => {
         data.forEach((element2, index2) => {
-            var i = element
+            var i = element;
             if (element == 0) {
                 i = element2;
             }
             console.log("{a" + (index + 1) + "||d" + (index2 + 1) + "}");
             str = str.replace("{a" + (index + 1) + "||d" + (index2 + 1) + "}", i);
-        })
-    })
+        });
+    });
     dargs.forEach((element, index) => {
         data.forEach((element2, index2) => {
             var i = randInt(parseInt(element), parseInt(element2));
             console.log("{randd" + (index + 1) + "d" + (index2 + 1) + "}");
             str = str.replace("{randd" + (index + 1) + "d" + (index2 + 1) + "}", i);
-        })
-    })
+        });
+    });
     if (str.indexOf("{embed}") != -1) {
         str = str.replace("{embed}","");
         const embed = new Discord.RichEmbed();
@@ -80,15 +80,19 @@ module.exports = {
                 }
                 break;
             case 'make':
-                args.shift()
-                var name = args.shift()
+                if (!message.member.hasPermission("MANAGE_MESSAGES")) {
+                    return "You cant do that!";
+                }
+                args.shift();
+                var name = args.shift();
                 var str = args.join(" ");
                 await message.guild.redis.setAsync(`tag_${name}`, str);
                 message.reply(`Tag created: with the name ${name} and the contents: ${str}`);
                 break;
             default:
                 if (args[0] == "") {
-                    message.reply("How 2 Use: use the 'raw <tag>' command to view a unprocessed tag, and use 'make <tagname> <contents> to make your own! Beemo docs should contain info on how tags work!")
+                    message.reply("How 2 Use: use the 'raw <tag>' command to view a unprocessed tag, and use 'make <tagname> <contents> to make your own! Beemo docs should contain info on how tags work!");
+                    break;
                 }
                 message.reply(await tagProcessSafe(message,args.shift(),args));
         }
