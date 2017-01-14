@@ -124,7 +124,7 @@ async function dispatchCommand(client, command, message) {
 
 function isCommand(content, ...commands) {
 	for(var command of commands) {
-		if(content.startsWith(command)) {
+		if(content.startsWith(`${command} `)||content.replace(command, "") == "") {
 			return command;
 		}
 	}
@@ -170,10 +170,6 @@ module.exports = async (client, message) => {
 					var commandName = isCommand(message.content, command.name, ...command.aliases);
 					if(commandName) {
 						message.content = message.content.replace(commandName, "");
-
-						if(!(message.content.startsWith(" ") || message.content == "")) { //mentionspamcount != mentionspam
-							continue;
-						}
 
 						//Remove that extra space
 						if(message.content.startsWith(" ")){

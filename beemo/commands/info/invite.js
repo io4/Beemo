@@ -13,5 +13,6 @@ module.exports = {
 
 	    return embed;
 	},
-	help: 'Returns bot invite'
+	help: 'Returns bot invite',
+	cacheResult: true
 }
