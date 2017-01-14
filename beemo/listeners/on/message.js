@@ -122,6 +122,15 @@ async function dispatchCommand(client, command, message) {
 		}
 }
 
+function isCommand(content, ...commands) {
+	for(var command of commands) {
+		if(content.startsWith(command)) {
+			return command;
+		}
+	}
+
+	return false;
+}
 
 module.exports = async (client, message) => {
 	if(!message) return;
@@ -158,8 +167,9 @@ module.exports = async (client, message) => {
 			if(await messageAllowed(client, message)) {
 				for(var command in client.commandManager.commands) {
 					var command = client.commandManager.commands[command];
-					if(message.content.startsWith(command.name)) {
-						message.content = message.content.replace(command.name, "");
+					var commandName = isCommand(message.content, command.name, ...command.aliases);
+					if(commandName) {
+						message.content = message.content.replace(commandName, "");
 
 						if(!(message.content.startsWith(" ") || message.content == "")) { //mentionspamcount != mentionspam
 							continue;

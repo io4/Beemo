@@ -21,6 +21,10 @@ class CommandManager {
 		command.name = commandName;
 		command.category = category;
 
+		if(!command.aliases) {
+			command.aliases = [];
+		}
+
 		this.listenerManager.loadCommandListeners(command);
 
 		return command;
