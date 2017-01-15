@@ -19,6 +19,9 @@ module.exports = {
 	    embed.addField("Channels", channels, true);
 	    embed.addField("Users", users, true);
 
+	    embed.addField("Honorable Mentions", "`iovoid#6259, iczero#8740, MoonyTheDwarf#3778, Cat#3204` - Contiburing towards Beemo 3\n\
+`Skiletro#3888, Lopho#4220` - Managing the community and moderating Beemo's HQ.")
+
 	    return embed;
 	},
 	help: 'Returns bot stats',

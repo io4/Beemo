@@ -7,7 +7,7 @@ module.exports = {
             return;
         }
         try {
-            var voiceChannel = await message.guild.createChannel('vckick', 'text');
+            var voiceChannel = await message.guild.createChannel('vckick', 'voice');
             await memberToKick.setVoiceChannel(voiceChannel);
             await voiceChannel.delete();
         } catch (err) {
