@@ -1,5 +1,5 @@
 const { left, right } = require('../../util/pad.js');
-const msgCut = require("../../util/numCut.js");
+const msgCut = require("../../util/msgCut.js");
 const Discord = require(`discord.js`)
 
 module.exports = {
