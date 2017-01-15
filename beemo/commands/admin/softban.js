@@ -13,7 +13,7 @@ module.exports = {
             message.reply("Unable to softban, do I have the correct permissions?");
             return;
         }
-        message.reply("<:banne:243432527920889856>");
+        message.channel.sendEmbed({description: "<:banne:243432527920889856>"});
     },
     help: 'Softbans a member',
     guildOnly: true,
