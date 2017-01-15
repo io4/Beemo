@@ -5,7 +5,7 @@ module.exports = {
     main: async(bot, message, ...args) => {
         let Embed = new Discord.RichEmbed();
 
-        let res = await bot.shard.broadcastEval(`this.guilds.map(g => g)`);
+        let res = await bot.shard.broadcastEval(`this.guilds.array()`);
         let list = [];
         let chunks = [];
         res = [].concat(...res);
