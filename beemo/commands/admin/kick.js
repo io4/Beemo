@@ -8,13 +8,14 @@ module.exports = {
         }
         try {
             await memberToBan.kick();
-            message.reply(":ok_hand:");
         } catch (err) {
             message.reply("Unable to kick, do I have the correct permissions?");
+            return;
         }
+        message.reply(":ok_hand:");
     },
     help: 'Kicks a member',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'KICK_MEMBERS',
     args: '<mention|id|username>'
 };

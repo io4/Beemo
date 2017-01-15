@@ -8,13 +8,14 @@ module.exports = {
         }
         try {
             await memberToBan.ban();
-            message.reply(":ok_hand:");
         } catch (err) {
             message.reply("Unable to ban, do I have the correct permissions?");
+            return;
         }
+        message.channel.sendEmbed({description: "<:banne:243432527920889856>"});
     },
     help: 'Ban a member',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'BAN_MEMBERS',
     args: '<mention|id|username>'
 };

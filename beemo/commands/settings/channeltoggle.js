@@ -1,21 +1,20 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	var redisKey = `server:${message.guild.id}:channel:${message.channel.id}:disabled`;
-    	var currentSetting = await bot.redis.getAsync(redisKey);
+    	var currentSetting = await message.channel.redis.getAsync("disabled");
    		//key exists = commands disabled
 
    		if(currentSetting != null) {
    			//Delete the key (enable commands)
 
-   			await bot.redis.delAsync(redisKey);
+   			await message.channel.redis.delAsync("disabled");
    			message.reply("I've enabled commands for this channel.");
    		} else {
    			//Set the key
-   			await bot.redis.setAsync(redisKey, "True");
+   			await message.channel.redis.setAsync("disabled", "True");
    			message.reply("I've disabled commands for this channel.");
    		}
     },
     help: 'Disable/Enable commands in a channel',
     guildOnly: true,
-    roleRequired: 'Beemo Admin'
+    permissionRequired: 'MANAGE_GUILD'
 };

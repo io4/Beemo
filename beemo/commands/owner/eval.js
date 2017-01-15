@@ -3,6 +3,11 @@ const rp = require("request-promise");
 module.exports = {
   main: async (bot, message, ...args) => {
     const client = bot;
+    const cm = client.commandManager;
+    const pm = client.prefixManager;
+    const lm = client.listenerManager;
+    const rm = client.redisManager;
+
     try {
       var res = eval(args.join(" "));
       if (typeof res !== 'string') res = require('util').inspect(res);

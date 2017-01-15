@@ -8,14 +8,15 @@ module.exports = {
         }
         try {
             await memberToBan.ban();
-            message.guild.unban(memberToBan.user);
-            message.reply(":ok_hand:");
+            await message.guild.unban(memberToBan.user);
         } catch (err) {
             message.reply("Unable to softban, do I have the correct permissions?");
+            return;
         }
+        message.channel.sendEmbed({description: "<:banne:243432527920889856>"});
     },
     help: 'Softbans a member',
     guildOnly: true,
-    roleRequired: 'Beemo Admin',
+    permissionRequired: 'BAN_MEMBERS',
     args: '<mention|id|username>'
 };

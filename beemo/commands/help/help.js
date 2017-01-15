@@ -5,8 +5,8 @@ module.exports = {
         //help <command>
         if(message.content != "") {
             //get the command
-            for(var command_name in bot.commands) {
-                var command = bot.commands[command_name];
+            for(var command_name in bot.commandManager.commands) {
+                var command = bot.commandManager.commands[command_name];
 
                 if(command.name == message.content) {
 
@@ -61,8 +61,8 @@ module.exports = {
         	message.author.sendMessage(help_message);*/
             //Lets get all categories as a dict first
             const categories = {};
-            for(const commandName in bot.commands) {
-                const command = bot.commands[commandName];
+            for(const commandName in bot.commandManager.commands) {
+                const command = bot.commandManager.commands[commandName];
                 if(command.hidden) continue;
                 if(typeof categories[command.category] == 'undefined') {
                     categories[command.category] = [command];
@@ -91,5 +91,6 @@ module.exports = {
     },
     help: 'Returns this message.',
     args: '[command]',
-    cacheResult: true
+    cacheResult: true,
+    hidden: true
 };
