@@ -10,7 +10,6 @@ module.exports = {
         //if (typeof invToSee == 'undefined') {
             await capitHelper.safeMakeData(message.author);
             let user = await capitHelper.getUser(message.author);
-            message.reply(`Info: ${user} Info: ${await message.author.redis.getAsync('capitalism_userData')}`);
             const embed = new Discord.RichEmbed();
             embed.setTitle(`${message.author.username}\'s inventory`);
             embed.setAuthor(bot.user.username, bot.user.avatarURL);
