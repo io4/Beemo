@@ -13,7 +13,7 @@ module.exports = {
             if(capitHelper.items[args[0]].func) {
                 await capitHelper.items[args[0]].func(message,bot,capitHelper);
             } else {
-                message.reply("You can't use that item.");
+                message.channel.sendEmbed({description: '<:gold:251238233453625345> ${message.author} discord gold required to use this item <:gold:251238233453625345>'})
             }
         } else {
             message.reply("That item doesnt exist.");
