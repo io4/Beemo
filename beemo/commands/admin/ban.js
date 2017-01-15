@@ -12,7 +12,7 @@ module.exports = {
             message.reply("Unable to ban, do I have the correct permissions?");
             return;
         }
-        message.reply(":ok_hand:");
+        message.reply("<:banne:243432527920889856>");
     },
     help: 'Ban a member',
     guildOnly: true,
