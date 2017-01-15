@@ -151,7 +151,6 @@ module.exports = async (client, message) => {
 
 	if(message.author) {
 		message.author.redis = client.redisManager.getUserNamespace(message.author);
-		if(Rates.check(message.author.id) !== true) return;
 	}
 
 	if(message.member) {
@@ -179,7 +178,7 @@ module.exports = async (client, message) => {
 						if(message.content.startsWith(" ")){
 							message.content = message.content.replace(" ", "");
 						}
-
+							if(typeof Rates.check(message.author.id) == 'number') return;
 						try {
 							await dispatchCommand(client, command, message);
 						} catch (err) {
