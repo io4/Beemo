@@ -7,5 +7,6 @@ module.exports = {
 	},
 	help: "Removes an internal tag",
 	args: "[@user] [tag]",
-	ownerOnly: true
+	ownerOnly: true,
+	hidden: true
 }

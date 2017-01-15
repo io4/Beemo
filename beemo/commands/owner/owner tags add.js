@@ -7,5 +7,6 @@ module.exports = {
 	},
 	help: "Gives a user a internal tag",
 	args: "[@user] [tag]",
-	ownerOnly: true
+	ownerOnly: true,
+	hidden: true
 }
