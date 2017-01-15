@@ -124,8 +124,10 @@ async function dispatchCommand(client, command, message) {
 
 function isCommand(content, ...commands) {
 	for(var command of commands) {
-		if(content.startsWith(`${command} `)||content.replace(command, "") == "") {
-			return command;
+		if(content.startsWith(command)) {
+			if(content.startsWith(`${command} `)||content.replace(command, "") == "") {
+				return command;
+			}
 		}
 	}
 
