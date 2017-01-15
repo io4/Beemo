@@ -1,4 +1,5 @@
 const { left, right } = require('../../util/pad.js');
+const numCut = require("../../util/numCut.js");
 const Discord = require(`discord.js`)
 
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
         while (list.length > 0) chunks.push(list.splice(0, 10));
         let page = Math.min(Math.max(parseInt(message.content), 1), chunks.length) || 1;
 
-        chunks[page - 1].map((g, i) => Embed.addField(`${left(((page - 1) * 10) + (i + 1), 2)}) ${g[0]}`, `**${g[1].toLocaleString()} members**`, true));
+        chunks[page - 1].map((g, i) => Embed.addField(`${left(((page - 1) * 10) + (i + 1), 2)}) ${numCut(g[0], 16)}`, `**${g[1].toLocaleString()} members**`, true));
         Embed.setAuthor(`Servers I am on (page ${page}/${chunks.length})`, bot.user.avatarURL)
         return Embed;
     },
