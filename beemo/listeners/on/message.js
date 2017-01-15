@@ -1,6 +1,7 @@
 const hasRole = require("../../util/hasRole.js");
 const Discord = require("discord.js");
-
+const Ratelimits = require("../../util/Ratelimits.js")
+const Rates = new Ratelimits({ timeout: 1, limit: 3 })
 //Command handling is in here
 
 async function messageAllowed(client, message) {
@@ -150,6 +151,7 @@ module.exports = async (client, message) => {
 
 	if(message.author) {
 		message.author.redis = client.redisManager.getUserNamespace(message.author);
+		if(Rates.check(message.author.id) !== true) return;
 	}
 
 	if(message.member) {
