@@ -1,5 +1,5 @@
 const xkcd = require('xkcd');
-
+const Discord = require('discord.js');
 module.exports = {
     main: async (bot, message, ...args) => {
     	function sendComic(comic) {
