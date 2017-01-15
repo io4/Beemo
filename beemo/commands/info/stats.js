@@ -12,10 +12,10 @@ module.exports = {
 	    embed.setThumbnail(bot.user.avatarURL);
 	    embed.setColor('#2ecc71');
 
-	    embed.addField("Library", "discord.js", true);
+	    embed.addField("Library", "<:js:233782775726080012> discord.js", true);
 	    embed.addField("Owner", "luke#7172", true);
 
-	    embed.addField("Guilds", guilds, true);
+	    embed.addField("Guilds", `<:yas:240588984135188481> ${guilds}`, true);
 	    embed.addField("Channels", channels, true);
 	    embed.addField("Users", users, true);
 
