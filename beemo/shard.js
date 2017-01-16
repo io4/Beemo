@@ -27,6 +27,7 @@ client.log = (...args) => console.log('🔧', chalk.green.bold(`SHARD ${client.s
 client.error = (...args) => console.error(chalk.bgRed.white.bold('🔥', `SHARD ${client.shard.id + 1}/${client.shard.count}`), ...args);
 client.resolve = require(`./util/resolve.js`);
 client.credentials = credentials;
+client.botVersion = "Beemo v3.0.0";
 
 if(credentials.distribution != "DEBUG") {
 	process.on('unhandledRejection', (reason, promise) => {
