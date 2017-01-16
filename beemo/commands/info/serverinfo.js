@@ -7,8 +7,8 @@ if(n==3) return 'High';
 };
 module.exports = {
 	main: async (bot, message, ...args) => {
-		var members = message.guild.members.filter(m => !m.bot);
-		var boats = message.guild.members.filter(m => m.bot);
+		var members = message.guild.members.filter(m => !m.user.bot);
+		var boats = message.guild.members.filter(m => m.user.bot);
 		
 		var embed = new Discord.RichEmbed();
 
