@@ -1,4 +1,4 @@
-hconst Discord = require("discord.js");
+const Discord = require("discord.js");
 var vc = (n) => {
 if(n==0) return 'None';
 if(n==1) return 'Low';
