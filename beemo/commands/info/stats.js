@@ -24,7 +24,7 @@ module.exports = {
 
 	    return embed;
 	},
-	help: 'Returns bot stats',
+	help: 'Returns statistics on the bot',
 	cacheResult: true,
 	aliases: ["info"]
 }

@@ -27,8 +27,8 @@ module.exports = {
 
 		return embed;
 	},
-	aliases: ["sinfo"],
-	help: 'Returns info about the server',
+	aliases: ["sinfo", "ginfo", "guildinfo"],
+	help: "Returns information about this server", 
 	guildOnly: true,
 	cacheResult: true
 }
