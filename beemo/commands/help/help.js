@@ -71,22 +71,19 @@ module.exports = {
                 }
             }
 
-            const embed = new Discord.RichEmbed();
-            embed.setTitle('Commands');
-            embed.setDescription(`Do \`${bot.credentials.prefixes[0]}help <command>\` for extended command infomation`);
-            embed.setColor('#2ecc71');
-            embed.setAuthor(bot.user.username, bot.user.avatarURL);
-            embed.setThumbnail(bot.user.avatarURL);
 
             for(var category in categories) {
+            	const embed = new Discord.RichEmbed();
+         		   embed.setTitle(`Commands - Category: ${category}`);
+           		   embed.setDescription(`Do \`${bot.credentials.prefixes[0]}help <command>\` for extended command infomation`);
+                   embed.setColor('#2ecc71');
+                   embed.setThumbnail(bot.user.avatarURL);
                 var categoryCommands = "";
                 for(var command of categories[category]) {
-                    categoryCommands += `\`${bot.credentials.prefixes[0]}${command.name}\`\n`;
-                }
-                embed.addField(category, categoryCommands, true);
+                	embed.addField(`${bot.credentials.prefixes[0]}${command.name}`, command.description || 'Unknown description', true);
+                   }
+                message.author.dmChannel.sendEmbed(embed);
             }
-
-            message.author.dmChannel.sendEmbed(embed);
         }
     },
     help: 'Returns this message.',
