@@ -86,11 +86,10 @@ module.exports = {
                 embed.addField(category, categoryCommands, true);
             }
 
-            message.author.dmChannel.sendEmbed(embed);
+            message.author.sendEmbed(embed).then(() => message.channel.sendMessage("Check your direct messages for a list of commands!")).catch(() => message.channel.sendEmbed(embed));
         }
     },
     help: 'Returns this message.',
     args: '[command]',
-    cacheResult: true,
     hidden: true
 };

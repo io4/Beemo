@@ -27,10 +27,10 @@ module.exports = {
 	    embed.addField("Guilds", `<:yas:240588984135188481> ${guilds}`, true);
 	    embed.addField("Channels", channels, true);
 	    embed.addField("Users", users, true);
-		embed.addField("Uptime", format(process.uptime()), true);
-		for(const person in contribs) {
-			contribString += `${person}: ${contribs[person]}`
-		};
+		  embed.addField("Uptime", format(process.uptime()), true);
+		  for(const person in contribs) {
+			    contribString += `${person}: ${contribs[person]}`
+		  };
 	    embed.addField("Honorable Mentions", contribString);
 	    return embed;
 	},

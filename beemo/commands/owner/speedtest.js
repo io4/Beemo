@@ -15,5 +15,6 @@ module.exports = {
     	})
 	},
 	help: 'Performs a connection speedtest!',
-	ownerOnly: true
+	ownerOnly: true,
+    hidden: true
 }

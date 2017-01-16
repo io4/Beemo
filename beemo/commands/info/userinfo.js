@@ -9,7 +9,7 @@ module.exports = {
 		}
 
 		embed.setTitle(`${member.user.username}#${member.user.discriminator}`);
-		embed.setColor(member.highestRole.color || #2ecc71');
+		embed.setColor(member.highestRole.color || '#2ecc71');
 		embed.setThumbnail(member.user.displayAvatarURL);
 		embed.addField("Username", member.user.username, true);
 		embed.addField("Discriminator", member.user.discriminator, true);
