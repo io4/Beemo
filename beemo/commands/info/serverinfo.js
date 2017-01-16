@@ -7,10 +7,10 @@ if(n==3) return 'High';
 };
 module.exports = {
 	main: async (bot, message, ...args) => {
-		var members = message.guild.members.filter(m => !m.user.bot);
-		var boats = message.guild.members.filter(m => m.user.bot);
+		const boats = message.guild.members.filter(m => m.user.bot);
+		const members = message.guild.memberCount - boats.size;
 		
-		var embed = new Discord.RichEmbed();
+		const embed = new Discord.RichEmbed();
 
 		embed.setTitle(message.guild.name);
 		embed.setColor('#2ecc71');
