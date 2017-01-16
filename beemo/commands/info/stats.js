@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-
+function format(seconds){ function pad(s){ return (s < 10 ? '' : '') + s; } var hours = Math.floor(seconds / (60*60)); var minutes = Math.floor(seconds % (60*60) / 60); var seconds = Math.floor(seconds % 60); return pad(hours) + ' hours, ' + pad(minutes) + ' minutes, and '+ pad(seconds) +' seconds.'};
 module.exports = {
 	main: async (bot, message, ...args) => {
 	    const users = (await bot.shard.broadcastEval('this.guilds.map(g => g.memberCount).reduce((a, b) => a + b)')).reduce((a, b) => a + b);
@@ -18,8 +18,8 @@ module.exports = {
 	    embed.addField("Guilds", `<:yas:240588984135188481> ${guilds}`, true);
 	    embed.addField("Channels", channels, true);
 	    embed.addField("Users", users, true);
-
-	    embed.addField("Honorable Mentions", "`iovoid#6259, iczero#8740, MoonyTheDwarf#3778, Cat#3204` - Contiburing towards Beemo 3\n\
+	embed.addField("Uptime", format(process.uptime()), true);
+		embed.addField("Honorable Mentions", "`iovoid#6259, iczero#8740, MoonyTheDwarf#3778, Cat#3204` - Contiburing towards Beemo 3\n\
 `Skiletro#3888, Lopho#4220` - Managing the community and moderating Beemo's HQ.")
 
 	    return embed;
