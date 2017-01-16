@@ -86,7 +86,7 @@ module.exports = {
                 embed.addField(category, categoryCommands, true);
             }
 
-            return embed;
+            message.author.dmChannel.sendEmbed(embed);
         }
     },
     help: 'Returns this message.',
