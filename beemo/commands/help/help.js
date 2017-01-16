@@ -86,11 +86,10 @@ module.exports = {
                 embed.addField(category, categoryCommands, true);
             }
 
-            message.author.dmChannel.sendEmbed(embed);
+            message.author.sendEmbed(embed);
         }
     },
     help: 'Returns this message.',
     args: '[command]',
-    cacheResult: true,
     hidden: true
 };
