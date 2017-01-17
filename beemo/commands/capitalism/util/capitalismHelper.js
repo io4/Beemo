@@ -18,25 +18,19 @@ async function saveUser(member, user) {
     await member.redis.setAsync("capitalism_userData",JSON.stringify(user));
     return;
 }
-async function makeSkeleton() {
-    let user = {}
-    user.inv= {};
-    user.cash= 1000;
-    user.cashAllTime= 1000;
-    user.cashLostAT= 0;
-    user.flags= {};
-    return user;
-}
 async function safeMakeData(member) {
     if (await member.redis.getAsync("capitalism_userData") == null || !await member.redis.getAsync("capitalism_userData")) {
         // Init the user.
-        await saveUser(member,await makeSkeleton());
+        let user = {}
+        user.inv= {};
+        user.cash= 1000;
+        user.cashAllTime= 1000;
+        user.cashLostAT= 0;
+        user.flags= {};
+        await saveUser(member,user);
         return true;
     }
     return false;
-}
-async function resetUser(member) {
-    await saveUser(member,await makeSkeleton());
 }
 async function randBuyValids(user) {
     var x = []
@@ -73,7 +67,13 @@ async function takeCash(member,cash,doAlltime=true) {
     await saveUser(member, user);
     return;
 }
-var itemExists=async (i)=>{let x;items[i]?x=true:x=false;return x};
+var itemExists=async (i)=>{
+ if (typeof items[i] != 'undefined') {
+     return true;
+ } else {
+     return false;
+ }
+}
 async function addItem(member,itemName,amount=1) {
     await safeMakeData(member);
     if (await itemExists(itemName)) {
@@ -148,7 +148,6 @@ module.exports = {
     addItem: addItem,
     removeItem: removeItem,
     safeMakeData: safeMakeData,
-    resetUser: resetUser,
     saveUser: saveUser,
     itemExists: itemExists,
     weightedRand: weightedRand,

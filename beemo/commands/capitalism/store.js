@@ -104,7 +104,7 @@ module.exports = {
                     }
                 } else return 'That item does not exist, or you do not have it.';
             case 'info':
-                if (capitHelper.itemExists(args[1])) {
+                if (await capitHelper.itemExists(args[1]) && typeof args[1] != 'undefined') {
                     return `Info about ${args[1]}: ${capitHelper.items[args[1]].info}`;
                 } else return 'No such item.';
             default:
