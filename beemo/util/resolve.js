@@ -1,7 +1,6 @@
 module.exports = { // thanks for the cool code cat
-	user: (text, caseSensitive = false) => {
-		 let users = text.client.users;
-	   	 text = text.content;
+	user: (text, client, caseSensitive = false) => {
+		 let users = client.users;
 
         let reg = /<@!?(\d+)>/;
         if (reg.test(text)) {
