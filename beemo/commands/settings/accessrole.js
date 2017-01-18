@@ -6,7 +6,7 @@ module.exports = {
     		message.reply("I've disabled the access role.");
     	} else {
             //Check if the role exists
-            let role = bot.resolve.role(message);
+            let role = bot.resolve.role(message.content, message.guild);
             if(role == false){
                 message.reply("Role not found!");
                 return
