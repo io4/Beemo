@@ -33,22 +33,23 @@ module.exports = { // thanks for the cool code cat
 			return false;
 		}
 	},
-	role: (msg, selfErr = false) => {
-        const input = msg.content;
-        let roleid = input;
-        if (msg.mentions.roles.array().length > 0) {
-            roleid = msg.mentions.roles.array()[0].id;
-        } else if (msg.guild.roles.find(r => r.id.includes(input))) {
-            roleid = input;
-        } else if (msg.guild.roles.find(r => r.name.includes(input))) {
-            roleid = msg.guild.roles.find(r => r.name.includes(input)).id;
-        } else if (selfErr) roleid = msg.member.highestRole.id;
+	role: (msg, caseSensitive = false) => {
+        const text = msg.content;
+        let roles = msg.guild.roles;
 
-        var role = msg.guild.roles.get(roleid);
-        if (role == undefined) {
-            return false;
-        } else {
-            return role;
+        let reg = /<@&(\d+)>/;
+        if (reg.test(text)) {
+            let id = text.match(reg)[1];
+            return roles.get(id);
         }
+
+        let check = r => {
+            let name = caseSensitive ? r.name : r.name.toLowerCase();
+            let t = caseSensitive ? t : text.toLowerCase();
+
+            return name.includes(t) || name.includes(t.replace(/^@/, ''));
+        };
+
+        return roles.get(text) || roles.find(check);
     }
 };
