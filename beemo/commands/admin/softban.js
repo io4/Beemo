@@ -1,6 +1,6 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	let memberToBan = bot.resolve.user(message);
+    	let memberToBan = bot.resolve.user(message.content, message.client);
 
         if(!memberToBan) {
             message.reply("Invalid user.");
