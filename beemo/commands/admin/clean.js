@@ -7,7 +7,7 @@ module.exports = {
 
         let messages = await message.channel.fetchMessages({limit});
 
-        const user = bot.resolve.user(message);
+        const user = bot.resolve.user(message.content, message.client);
         if(user) {
             messages = messages.array().filter(m => m.author.id === user.id)
         }
