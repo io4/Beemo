@@ -1,9 +1,9 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	let memberToBan = message.guild.member(bot.resolve.user(message));
+    	let banne = () => message.guild.ban(bot.resolve.user(message));
 
         if(typeof memberToBan == 'undefined') {
-            message.reply("Invalid member.");
+            message.reply("Invalid user.");
             return;
         }
         try {
@@ -14,8 +14,8 @@ module.exports = {
         }
         message.channel.sendEmbed({description: "<:banne:243432527920889856>"});
     },
-    help: 'Ban a member',
+    help: 'Ban a user',
     guildOnly: true,
     permissionRequired: 'BAN_MEMBERS',
-    args: '<mention|id|username>'
+    args: '<mention|id|username|nickname>'
 };
