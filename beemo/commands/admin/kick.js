@@ -1,13 +1,13 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	let memberToBan = message.guild.member(bot.resolve.user(message));
+    	let memberToKick = bot.resolve.member(message.content, message.guild);
 
-        if(typeof memberToBan == 'undefined') {
+        if(!memberToKick) {
             message.reply("Invalid member.");
             return;
         }
         try {
-            await memberToBan.kick();
+            await memberToKick.kick();
         } catch (err) {
             message.reply("Unable to kick, do I have the correct permissions?");
             return;
