@@ -2,11 +2,9 @@ const Discord = require("discord.js");
 const moment = require('moment');
 module.exports = {
 	main: async (bot, message, ...args) => {
-		var embed = new Discord.RichEmbed();
-		var member = message.guild.member(bot.resolve.user(message));
-		if(!member) {
-			var member = message.member;
-		}
+		const embed = new Discord.RichEmbed();
+		let member = bot.resolve.member(message.content, message.guild);
+		if(!member) member = message.member;
 
 		embed.setTitle(`${member.user.username}#${member.user.discriminator}`);
 		embed.setColor(member.highestRole.color || '#2ecc71');
