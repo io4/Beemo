@@ -54,7 +54,7 @@ module.exports = { // thanks for the cool code cat
 		const regex = new RegExp(/([0-9]*)/);
 		if (regex.test(content)) {
 			let num = parseInt(content);
-			if (num == NaN) {
+			if (isNaN(num)) {
 				return false;
 			}
 			return num;
@@ -88,4 +88,5 @@ module.exports = { // thanks for the cool code cat
         };
 
         return roles.get(text) || roles.find(check) || roles.find(checkInc);
+    }
 };

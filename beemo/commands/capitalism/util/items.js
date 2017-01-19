@@ -213,6 +213,27 @@ module.exports = {
         amount: 1,
         instock: false
     },
+    "cat": {
+        name: "cat",
+        cost: 2000000,
+        info: "Its a cat! mrrrowww!",
+        amount: 1,
+        instock: true,
+        func: async (message,bot,helper) => {
+            var user = helper.getUser(message.author);
+            switch (parseInt(helper.weightedRand({1:0.4,2:0.2}))) {
+                case 1:
+                    message.reply(`'s cat${(user.inv["cat"]>1)?'s':''} meow (+${user.inv["cat"]} meow${(user.inv["cat"]>1)?'s':''})`);
+                    helper.addItem(message.author,"meow",user.inv["cat"]);
+                    break;
+                case 2:
+                    message.reply(`'s cat${(user.inv["cat"]>1)?'s':''} breed asexually! (+${user.inv["cat"]} cat${(user.inv["cat"]>1)?'s':''})`)
+                    helper.addItem(message.author,"cat",user.inv["cat"]);
+                default:
+                    // code
+            }
+        }
+    },
     "doll": {
         name: "doll",
         cost: 15000,
@@ -252,10 +273,10 @@ module.exports = {
         amount: 1,
         instock: true
     },
-    "moo": {
+    "meow": {
         name: "moo",
         cost: 1000000,
-        info: "A very rare moo, hard to find.",
+        info: "A very rare meow, hard to find.",
         amount: 1,
         instock: false
     },
@@ -290,13 +311,6 @@ module.exports = {
         amount: 1,
         instock: false
     },
-    "cow": {
-        name: "cow",
-        cost: 24000000,
-        info: "Can generate moo's.",
-        amount: 1,
-        instock: true
-    },
     "house": {
         name: "house",
         cost: 50000000,
@@ -325,14 +339,6 @@ module.exports = {
         amount: 1,
         instock: true
     },
-    "moo2": {
-        name: "moo2",
-        cost: 500000000,
-        info: "This moo has evolved into something new.",
-        amount: 1,
-        instock: false
-    },
-    
     "billion": {
         name: "billion",
         cost: 999999999,

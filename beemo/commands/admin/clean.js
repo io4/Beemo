@@ -1,11 +1,11 @@
 module.exports = {
     main: async (bot, message, limit, ...args) => {
-        let limit = bot.resolve.num(limit);
-        if(!limit) {
-            limit = 100;
+        let limitt = bot.resolve.num(limit); 
+        if(!limitt) {
+            limitt = 100;
         }
 
-        let messages = await message.channel.fetchMessages({limit});
+        let messages = await message.channel.fetchMessages({limitt});
 
         const user = bot.resolve.user(message.content, message.client);
         if(user) {
