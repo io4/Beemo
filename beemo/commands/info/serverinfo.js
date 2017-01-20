@@ -1,23 +1,33 @@
 const Discord = require("discord.js");
-
+var vc = (n) => {
+if(n==0) return 'None';
+if(n==1) return 'Low';
+if(n==2) return 'Medium';
+if(n==3) return 'High';
+};
 module.exports = {
 	main: async (bot, message, ...args) => {
-		var embed = new Discord.RichEmbed();
+		const boats = message.guild.members.filter(m => m.user.bot);
+		const members = message.guild.memberCount - boats.size;
+		
+		const embed = new Discord.RichEmbed();
 
 		embed.setTitle(message.guild.name);
 		embed.setColor('#2ecc71');
 		embed.setThumbnail(message.guild.iconURL);
-
+		embed.addField("Owner", `${message.guild.owner.user.username}#${message.guild.owner.user.discriminator}`, true);
 		embed.addField("ID", message.guild.id, true);
-		embed.addField("Members", message.guild.memberCount, true);
-		embed.addField("Roles", message.guild.roles.size, true);
+		embed.addField("Verification Level", vc(message.guild.verificationLevel), true);
+		embed.addField("Members", members.size, true);
+		embed.addField("Bots", boats.size, true);
+		embed.addField(`Roles (${message.guild.roles.size} total)`, message.guild.roles.map(r => r.name).join(', '), true);
+		embed.addField(`Emojis`, message.guild.emojis.size, true);
 		embed.addField("Channels", message.guild.channels.size, true);
 
 
 		return embed;
 	},
-	aliases: ["sinfo"],
-	help: 'Returns info about the server',
+	aliases: ["sinfo", "ginfo", "guildinfo"],
+	help: "Returns information about this server", 
 	guildOnly: true,
-	cacheResult: true
 }

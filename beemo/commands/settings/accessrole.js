@@ -2,11 +2,11 @@ module.exports = {
     main: async (bot, message, ...args) => {
     	if(message.content == "") {
     		//Delete the key
-    		await message.guild.redis.delAsync("access_role");
+    		message.guild.redis.delAsync("access_role");
     		message.reply("I've disabled the access role.");
     	} else {
             //Check if the role exists
-            let role = bot.resolve.role(message);
+            let role = bot.resolve.role(message.content, message.guild);
             if(role == false){
                 message.reply("Role not found!");
                 return

@@ -1,8 +1,8 @@
 module.exports = {
     main: async (bot, message, ...args) => {
-    	let memberToKick = message.guild.member(bot.resolve.user(message));
+    	let memberToKick = bot.resolve.member(message.content, message.guild);
 
-        if(typeof memberToKick == 'undefined') {
+        if(!memberToKick) {
             message.reply("Invalid member.");
             return;
         }

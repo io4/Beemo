@@ -1,13 +1,13 @@
 module.exports = {
     main: async (bot, message, limit, ...args) => {
-        var limit = bot.resolve.num(limit);
-        if(!limit) {
-            limit = 100;
+        let limitt = bot.resolve.num(limit); 
+        if(!limitt) {
+            limitt = 100;
         }
 
-        let messages = await message.channel.fetchMessages({limit: limit});
+        let messages = await message.channel.fetchMessages({limitt});
 
-        var user = bot.resolve.user(message);
+        const user = bot.resolve.user(message.content, message.client);
         if(user) {
             messages = messages.array().filter(m => m.author.id === user.id)
         }

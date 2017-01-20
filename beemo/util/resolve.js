@@ -1,31 +1,60 @@
 module.exports = { // thanks for the cool code cat
-	user: (msg, selfErr = false) => {
-		const userreg = new RegExp(/<@!?([0-9]{17,21})>/);
-		const userreg2 = new RegExp(/id\:([0-9]{17,21})/);
-		let input = msg.content;
-		let userid = input;
-		if (userreg.test(input)) {
-			let reg = userreg.exec(input);
-			userid = reg[1];
-		} else if (userreg2.test(input)) {
-			userid = userreg2.exec(input)[1];
-		} else if (msg.client.users.find(`username`, msg.content.replace(`@`, ``)) !== null) {
-			userid = msg.client.users.find(`username`, msg.content.replace(`@`, ``)).id;
-		} else if (selfErr) userid = msg.author.id;
+	user: (text, client, caseSensitive = false) => {
+		 let users = client.users;
 
-		const user = msg.client.users.get(userid);
-		if (user == undefined) {
-			return false;
-		} else {
-			return user;
-		}
+        let reg = /<@!?(\d+)>/;
+        if (reg.test(text)) {
+            let id = text.match(reg)[1];
+            return users.get(id);
+        }
 
+        let check = u => {
+            let username = caseSensitive ? u.username : u.username.toLowerCase();
+            let t = caseSensitive ? text : text.toLowerCase();
+
+            return username === t || username === t.split('#')[0] && u.discriminator === t.split('#')[1];
+        };
+        let checkInc = u => {
+            let username = caseSensitive ? u.username : u.username.toLowerCase();
+            let t = caseSensitive ? text : text.toLowerCase();
+
+            return username.includes(t) || username.includes(t.split('#')[0]) && u.discriminator.includes(t.split('#')[1]);
+
+        };
+        return users.get(text) || users.find(check) || users.find(checkInc);
 	},
+	member: (text, guild, caseSensitive = false) => {
+        let members = guild.members;
+
+        let reg = /<@!?(\d+)>/;
+        if (reg.test(text)) {
+            let id = text.match(reg)[1];
+            return members.get(id);
+        }
+
+        let check = m => {
+            let username = caseSensitive ? m.user.username : m.user.username.toLowerCase();
+            let displayName = caseSensitive ? m.displayName : m.displayName.toLowerCase();
+            let t = caseSensitive ? text : text.toLowerCase();
+
+            return displayName === t || username === t || username === t.split('#')[0] && m.user.discriminator === t.split('#')[1];
+        };
+        let checkInc = m => {
+            let username = caseSensitive ? m.user.username : m.user.username.toLowerCase();
+            let displayName = caseSensitive ? m.displayName : m.displayName.toLowerCase();
+            let t = caseSensitive ? text : text.toLowerCase();
+
+            return displayName.includes(t) || username.includes(t) || username.includes(t.split('#')[0]) && m.user.discriminator.includes(t.split('#')[1]);
+
+        };
+
+        return members.get(text) || members.find(check) || members.find(checkInc);
+    },
 	num: (content) => {
 		const regex = new RegExp(/([0-9]*)/);
 		if (regex.test(content)) {
 			let num = parseInt(content);
-			if (num == NaN) {
+			if (isNaN(num)) {
 				return false;
 			}
 			return num;
@@ -33,22 +62,31 @@ module.exports = { // thanks for the cool code cat
 			return false;
 		}
 	},
-	role: (msg, selfErr = false) => {
-        const input = msg.content;
-        let roleid = input;
-        if (msg.mentions.roles.array().length > 0) {
-            roleid = msg.mentions.roles.array()[0].id;
-        } else if (msg.guild.roles.find(r => r.id.includes(input))) {
-            roleid = input;
-        } else if (msg.guild.roles.find(r => r.name.includes(input))) {
-            roleid = msg.guild.roles.find(r => r.name.includes(input)).id;
-        } else if (selfErr) roleid = msg.member.highestRole.id;
+	role: (text, guild, caseSensitive = false) => {
+         if (!guild) throw new Error('Guild must be specified.');
 
-        var role = msg.guild.roles.get(roleid);
-        if (role == undefined) {
-            return false;
-        } else {
-            return role;
+        let roles = guild.roles;
+
+        let reg = /<@&(\d+)>/;
+        if (reg.test(text)) {
+            let id = text.match(reg)[1];
+            return roles.get(id);
         }
+
+        let check = r => {
+            let name = caseSensitive ? r.name : r.name.toLowerCase();
+            let t = caseSensitive ? t : text.toLowerCase();
+
+            return name === t || name === t.replace(/^@/, '');
+        };
+        let checkInc = r => {
+            let name = caseSensitive ? r.name : r.name.toLowerCase();
+            let t = caseSensitive ? text : text.toLowerCase();
+
+            return name.includes(t) || name.includes(t.replace(/^@/, ''));
+
+        };
+
+        return roles.get(text) || roles.find(check) || roles.find(checkInc);
     }
 };

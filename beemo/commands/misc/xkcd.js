@@ -1,9 +1,14 @@
 const xkcd = require('xkcd');
-
+const Discord = require('discord.js');
 module.exports = {
     main: async (bot, message, ...args) => {
     	function sendComic(comic) {
-    		message.reply(`XKCD ${comic.num}: **${comic.title}**\n\n${comic.img}`);
+    	var embed = new Discord.RichEmbed();
+	    embed.setTitle(`XKCD #${comic.num} - ${comic.title}`);
+	    embed.setColor('#2ecc71');
+		embed.setDescription(comic.alt);
+		embed.setImage(comic.img);
+	    	message.channel.sendEmbed(embed);
     	}
         const xkcdNumber = bot.resolve.num(message.content);
         if(!xkcdNumber) {

@@ -2,8 +2,8 @@ var MUTE_ROLE = 'BeemoMuted';
 
 module.exports = {
     main: async (bot, message, ...args) => {
-        let memberToUnmute = message.guild.member(bot.resolve.user(message));
-        if (typeof memberToUnmute == 'undefined') {
+        let memberToUnmute = bot.resolve.member(message.content, message.guild);
+        if (!memberToUnmute) {
             message.reply("Invalid member.");
             return;
         }

@@ -15,7 +15,7 @@ async function applyMute (chan, role) {
 
 module.exports = {
     main: async (bot, message, ...args) => {
-    	let memberToMute = message.guild.member(bot.resolve.user(message));
+    	let memberToMute = bot.resolve.member(message.content, message.guild);
         if (typeof memberToMute == 'undefined') {
             message.reply("Invalid member.");
             return;

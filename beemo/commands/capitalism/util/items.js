@@ -6,7 +6,10 @@ module.exports = {
         cost: -999999999999999999999,
         info: "God help you.",
         amount: 1,
-        instock:false
+        instock:false,
+        func: async (message,bot,helper) => {
+            
+        }
     },
     "paradox": {
         name: "paradox",
@@ -164,7 +167,7 @@ module.exports = {
         info: "A very expensive lamp, great lighting.",
         amount: 1,
         instock: true,
-        func: async (message,bot) => {
+        func: async (message,bot,helper) => {
             switch (parseInt(helper.weightedRand({0:1,1:0.01,2:0.1})())) {
                 case 0: 
                     message.reply("You turn the lamp off and on again.");
@@ -190,13 +193,16 @@ module.exports = {
             switch (parseInt(helper.weightedRand({0:1,1:0.1,2:0.1})())) {
                 case 0:
                     message.reply(" feeds his penguin");
+                    break;
                 case 1:
                     message.reply(" has a penguin roast (-1 penguin)");
                     await helper.removeItem(message.author, 'penguin');
+                    break;
                 case 2:
                     var x = (await helper.getUser(message.author)).inv['penguin'];
                     await helper.addItem(message.author,'penguin',x)
                     message.reply(`'s penguin(s) multiply! (+${x} penguins)`);
+                    break;
             }
         }
     },
@@ -206,6 +212,27 @@ module.exports = {
         info: "Nothing, how can you even have this.",
         amount: 1,
         instock: false
+    },
+    "cat": {
+        name: "cat",
+        cost: 2000000,
+        info: "Its a cat! mrrrowww!",
+        amount: 1,
+        instock: true,
+        func: async (message,bot,helper) => {
+            var user = helper.getUser(message.author);
+            switch (parseInt(helper.weightedRand({1:0.4,2:0.2}))) {
+                case 1:
+                    message.reply(`'s cat${(user.inv["cat"]>1)?'s':''} meow (+${user.inv["cat"]} meow${(user.inv["cat"]>1)?'s':''})`);
+                    helper.addItem(message.author,"meow",user.inv["cat"]);
+                    break;
+                case 2:
+                    message.reply(`'s cat${(user.inv["cat"]>1)?'s':''} breed asexually! (+${user.inv["cat"]} cat${(user.inv["cat"]>1)?'s':''})`)
+                    helper.addItem(message.author,"cat",user.inv["cat"]);
+                default:
+                    // code
+            }
+        }
     },
     "doll": {
         name: "doll",
@@ -224,7 +251,13 @@ module.exports = {
         cost: 50000,
         info: "One derp, to derp things.",
         amount: 1,
-        instock: true
+        instock: true,
+        func: async (message,bot,helper) =>{
+            switch (parseInt(helper.weightedRand({1:0.5,2:0.2,3:0.1,4:0.01}))) {
+                case 1:
+                    
+            }
+        }
     },
     "water": {
         name: "water",
@@ -240,10 +273,10 @@ module.exports = {
         amount: 1,
         instock: true
     },
-    "moo": {
+    "meow": {
         name: "moo",
         cost: 1000000,
-        info: "A very rare moo, hard to find.",
+        info: "A very rare meow, hard to find.",
         amount: 1,
         instock: false
     },
@@ -278,13 +311,6 @@ module.exports = {
         amount: 1,
         instock: false
     },
-    "cow": {
-        name: "cow",
-        cost: 24000000,
-        info: "Can generate moo's.",
-        amount: 1,
-        instock: true
-    },
     "house": {
         name: "house",
         cost: 50000000,
@@ -313,14 +339,6 @@ module.exports = {
         amount: 1,
         instock: true
     },
-    "moo2": {
-        name: "moo2",
-        cost: 500000000,
-        info: "This moo has evolved into something new.",
-        amount: 1,
-        instock: false
-    },
-    
     "billion": {
         name: "billion",
         cost: 999999999,
@@ -366,7 +384,7 @@ module.exports = {
     },
     "moonythedwarf": {
         name: "moonythedwarf",
-        cost: 9999999999999999999,
+        cost: 999999999999999999999,
         info: "How. I shall have my revenge! ):<",
         amount: 1,
         instock: true
