@@ -30,7 +30,7 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "serve-favicon": "^2.3.2",
-    "socket.io": "^1.7.2",
+    "socket.io": "^2.0.2",
     "speedtest-net": "^1.2.12",
     "superagent": "^3.3.1",
     "uws": "^0.12.0",
