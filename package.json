@@ -4,7 +4,9 @@
   "description": "A bot",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "luke",
   "license": "MIT",
@@ -23,7 +25,7 @@
     "moment": "^2.17.1",
     "morgan": "^1.7.0",
     "node-opus": "^0.2.4",
-    "npm": "^4.0.5",
+    "npm": "^5.5.0",
     "opusscript": "0.0.1",
     "redis": "^2.6.3",
     "redis-ns": "^0.2.0",
@@ -36,6 +38,8 @@
     "uws": "^0.12.0",
     "wolfram-alpha": "^0.5.0",
     "xkcd": "^1.1.1",
-    "yomamma": "^1.0.5"
-  }
+    "yomamma": "^1.0.5",
+    "snyk": "^1.83.0"
+  },
+  "snyk": true
 }
